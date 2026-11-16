@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# NUNCA versionar a chave da API. O .env.example (sem segredo) pode ser commitado.
+.env
+.env.*
+!.env.example
+
+# Gerado ao rodar (predições, relatórios e métricas)
+resultados/

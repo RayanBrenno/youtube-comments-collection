@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Gerados ao rodar (modelos treinados têm vários GB; não versionar)
+modelos/
+resultados/
+cronometragem/

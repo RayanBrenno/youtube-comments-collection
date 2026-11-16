@@ -1,0 +1,46 @@
+# ============================================================================
+# ETAPA 2 — 2º fine-tuning dos modelos da ETAPA 1 (modelos/etapa1_cardiff/) no
+# dataset 1 (dataset/dataset1_finetuning.csv, 500 comentários do YouTube), avaliado
+# no dataset 2 (dataset/dataset2_teste.csv, os outros 500, nunca vistos no treino).
+# Os dois datasets têm a mesma proporção de classes (122 neg / 153 neu / 225 pos).
+#
+# Receita definida antes de rodar, sem ajuste no teste:
+# 4 épocas, lr 2e-5, batch 16, weight decay 0.01, max_length 256, sem validação.
+#
+# Executar (depois da etapa 1): python run.py --config configs/etapa2.yaml
+# ============================================================================
+
+seed: 42
+eval_only: false
+
+dataset:
+  name: dataset1_finetuning
+  path: dataset/dataset1_finetuning.csv
+  test_path: dataset/dataset2_teste.csv   # intocado até o predict final
+  text_column: text
+  label_column: sentimento
+  max_samples: null
+  val_size: 0            # todos os 500 no treino
+
+models:
+  - modelos/etapa1_cardiff/neuralmind__bert-base-portuguese-cased
+  - modelos/etapa1_cardiff/neuralmind__bert-large-portuguese-cased
+  - modelos/etapa1_cardiff/distilbert-base-multilingual-cased
+  - modelos/etapa1_cardiff/xlm-roberta-base
+
+training:
+  num_train_epochs: 4
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 64
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  max_length: 256
+  precision: auto
+  dataloader_num_workers: 4
+
+metric_average: macro
+latency_samples: 200
+output_dir: resultados/etapa2
+per_class_report: true
+save_models: true
+models_dir: modelos/etapa2

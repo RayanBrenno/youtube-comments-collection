@@ -37,3 +37,10 @@ lerna-debug.log*
 
 # Misc
 *.local
+
+# Scripts do TCC: tudo o que é gerado ao rodar fica fora (modelos treinados têm vários GB).
+# .venv/ e .env já são ignorados acima; cada pacote tem também o seu .gitignore.
+scripts/encoders/modelos/
+scripts/encoders/resultados/
+scripts/encoders/cronometragem/
+scripts/claude/resultados/

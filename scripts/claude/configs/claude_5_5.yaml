@@ -1,0 +1,49 @@
+# Claude Haiku 5.5 / Sonnet 5.5 / Opus 5.5, zero-shot, nos 500 comentários do dataset 2
+# (dataset/dataset2_teste.csv): text -> sentimento (negativo / neutro / positivo).
+# Executar: python run_claude.py --config configs/claude_5_5.yaml
+#
+# Raciocínio (thinking):
+#   - claude-haiku-5-5:  {type: disabled} (padrão do código; aceito com effort high ou menor;
+#                        effort padrão do modelo = medium)
+#   - claude-sonnet-5-5: {type: disabled} dá erro; o equivalente é {type: between_tools}
+#   - claude-opus-5-5:   não pode ser desligado -> não envia thinking e usa effort low
+#
+# Fases (as predições ficam em <output_dir>/predictions/<modelo>.csv e são reaproveitadas,
+# nenhum comentário é pago duas vezes):
+#   0) dry_run: true                        -> só estima custo via count_tokens (gratuito)
+#   1) dry_run: false, limit_samples: 30    -> piloto estratificado
+#   2) dry_run: false, limit_samples: null  -> completa os 470 restantes
+
+seed: 42
+
+dataset:
+  name: dataset2_teste_500
+  path: dataset/dataset2_teste.csv
+  text_column: text
+  label_column: sentimento
+  id_column: comment_id
+
+output_dir: resultados/claude_5_5
+per_class_report: true
+
+llm:
+  num_fewshot: 0           # zero-shot
+  concurrency: 8           # chamadas simultâneas
+  max_tokens: 16           # saída curta: só o rótulo
+  dry_run: false           # fase 0: true
+  limit_samples: null      # fase 1 (piloto): 30; fase 2: null
+  max_cost_usd: 1.5        # teto de gasto por modelo
+  models:
+    - id: claude-haiku-5-5
+      price_in: 0.10        # US$ por 1M tokens de entrada (prompts até 100K tokens)
+      price_out: 0.50
+    - id: claude-sonnet-5-5
+      price_in: 2.0
+      price_out: 10.0
+      thinking: {type: between_tools}
+    - id: claude-opus-5-5
+      price_in: 4.0
+      price_out: 20.0
+      thinking: null        # não pode ser desligado
+      effort: low
+      max_tokens: 1024      # espaço para o raciocínio antes do rótulo

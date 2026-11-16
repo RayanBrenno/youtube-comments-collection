@@ -1,0 +1,8 @@
+# Versões exatas usadas no experimento (Python 3.12.3).
+anthropic==1.17.0
+python-dotenv==1.2.4
+datasets==3.6.0
+pandas==3.0.6
+numpy==2.5.4
+scikit-learn==1.9.1
+PyYAML==6.0.3

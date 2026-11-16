@@ -1,0 +1,66 @@
+# ============================================================================
+# ETAPA 1 — fine-tuning dos modelos base (Hugging Face) só no Cardiff: 3.033 tweets
+# em português (dataset/cardiff_tweets_ptbr_full.csv), todos no treino.
+# Avaliado no dataset 2 (dataset/dataset2_teste.csv, 500 comentários do YouTube).
+#
+# Sem validação -> sem early stopping: 4 épocas FIXAS, definidas antes de rodar.
+# O teste só é usado na avaliação final (nunca na seleção do modelo).
+#
+# Executar: python run.py --config configs/etapa1_cardiff.yaml
+# Depois:   python run.py --config configs/etapa2.yaml
+# ============================================================================
+
+seed: 42
+
+eval_only: false
+
+dataset:
+  name: cardiff_tweets_ptbr_full
+  path: dataset/cardiff_tweets_ptbr_full.csv
+  test_path: dataset/dataset2_teste.csv   # 500 comentários, intocados até o fim
+  text_column: text
+  label_column: sentimento
+  max_samples: null
+  val_size: 0            # todos os 3.033 no treino
+
+models:
+  - neuralmind/bert-base-portuguese-cased     # BERTimbau Base (110M)
+  - neuralmind/bert-large-portuguese-cased    # BERTimbau Large (335M)
+  - distilbert-base-multilingual-cased        # DistilBERT multilíngue (135M)
+  - xlm-roberta-base                          # RoBERTa multilíngue (278M)
+
+training:
+  num_train_epochs: 4               # fixo (sem validação para early stopping)
+  per_device_train_batch_size: 16
+  gradient_accumulation_steps: 2    # batch EFETIVO = 32
+  per_device_eval_batch_size: 64
+  max_length: 256
+
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: cosine
+  label_smoothing_factor: 0.05
+  max_grad_norm: 1.0
+  optim: adamw_torch_fused
+
+  precision: auto
+  gradient_checkpointing: false
+  group_by_length: true
+  dataloader_num_workers: 4
+
+  eval_strategy: "no"
+  early_stopping_patience: 0
+
+  oom_retry: true
+  min_batch_size: 4
+
+metric_average: macro
+
+latency_samples: 200
+
+output_dir: resultados/etapa1_cardiff
+per_class_report: true
+
+save_models: true
+models_dir: modelos/etapa1_cardiff
