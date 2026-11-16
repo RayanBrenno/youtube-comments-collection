@@ -1,17 +1,22 @@
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from fastapi import HTTPException
 from datetime import datetime, timezone
 import os
-from app.services.ia_service import analisar_intencao_comentario
-
-
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 
 def get_youtube_client():
-    if not YOUTUBE_API_KEY:
+    youtube_api_key = os.getenv("YOUTUBE_API_KEY")
+    if not youtube_api_key:
         raise HTTPException(status_code=500, detail="YOUTUBE_API_KEY não configurada.")
-    return build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
+    return build("youtube", "v3", developerKey=youtube_api_key, cache_discovery=False)
+
+
+def _youtube_error_reason(exc: HttpError) -> str:
+    try:
+        return exc.error_details[0].get("reason", "") if exc.error_details else ""
+    except (AttributeError, IndexError, TypeError):
+        return ""
 
 
 def get_code_url(url: str) -> str:
@@ -90,6 +95,11 @@ def get_video_info(video_id: str) -> dict:
 
 
 def get_all_comments(video_id: str) -> list[dict]:
+    """Coleta todos os comentários de primeiro nível (sem classificar).
+
+    A classificação de sentimento é feita depois, só nos comentários que ainda não estão
+    salvos (ver app/services/ia_service.py).
+    """
     youtube = get_youtube_client()
 
     comments = []
@@ -105,22 +115,35 @@ def get_all_comments(video_id: str) -> list[dict]:
             order="time",
         )
 
-        response = request.execute()
+        try:
+            response = request.execute()
+        except HttpError as exc:
+            reason = _youtube_error_reason(exc)
+            if reason == "commentsDisabled":
+                raise HTTPException(
+                    status_code=400,
+                    detail="Os comentários deste vídeo estão desativados.",
+                ) from exc
+            if reason == "videoNotFound":
+                raise HTTPException(status_code=404, detail="Vídeo não encontrado.") from exc
+            if reason in ("quotaExceeded", "dailyLimitExceeded"):
+                raise HTTPException(
+                    status_code=429,
+                    detail="Cota diária da YouTube Data API esgotada. Tente novamente amanhã.",
+                ) from exc
+            raise HTTPException(
+                status_code=502,
+                detail=f"Erro ao buscar comentários no YouTube: {exc.reason or exc}",
+            ) from exc
 
         for item in response.get("items", []):
             snippet = item["snippet"]["topLevelComment"]["snippet"]
 
-            text = snippet.get("textDisplay", "")
-
-            analise = analisar_intencao_comentario(text)
-
             comment = {
                 "author": snippet.get("authorDisplayName", ""),
-                "text": text,
+                "text": snippet.get("textDisplay", ""),
                 "likes": snippet.get("likeCount", 0),
                 "published_at": snippet.get("publishedAt"),
-                "intencao": analise["intencao"],
-                "score": analise["score"],
             }
 
             comments.append(comment)

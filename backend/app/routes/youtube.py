@@ -8,14 +8,24 @@ from app.services.youtube_service import (
     get_all_comments,
 )
 
+from app.services.ia_service import (
+    classificar_comentarios,
+    classificador_padrao,
+    listar_classificadores,
+    resolver_classificador,
+    resumo,
+)
+
 from app.youtube_repository import (
-    video_manager,
+    filter_new_comments,
     get_comments_by_video_id,
-    get_videos_by_user,
+    get_dashboard_summary,
     get_video_by_code_url_and_user,
     get_video_by_id_and_user,
-    update_video_by_id,
-    get_dashboard_summary,
+    get_videos_by_user,
+    insert_comments,
+    insert_video_info,
+    update_video_info,
 )
 
 router = APIRouter(prefix="/youtube", tags=["youtube"])
@@ -33,6 +43,55 @@ def _format_comments(saved_comments: list[dict]) -> list[dict]:
         }
         for comment in saved_comments
     ]
+
+
+def _collect_classify_and_save(
+    code_url: str,
+    user_id: str,
+    existing_video: dict | None,
+    requested_classifier: str | None,
+) -> tuple[str, dict, str]:
+    """Coleta vídeo + comentários, classifica só os novos e salva.
+
+    Vídeo novo: usa o classificador pedido (ou o padrão).
+    Vídeo já salvo: usa o classificador com que ele foi consultado da primeira vez.
+
+    A classificação roda antes de gravar qualquer coisa: se ela falhar (ex.: chave da
+    Anthropic inválida), o banco não fica com um vídeo sem comentários.
+
+    Retorna (video_id, video_info, classificador).
+    """
+    if existing_video:
+        classifier = existing_video.get("classificador") or classificador_padrao()
+    else:
+        classifier = requested_classifier or classificador_padrao()
+    resolver_classificador(classifier)  # 400 logo, antes de gastar cota do YouTube
+
+    video_info = get_video_info(code_url)
+    comments = get_all_comments(code_url)
+
+    if existing_video:
+        video_id = str(existing_video["_id"])
+        new_comments = filter_new_comments(comments, video_id)
+    else:
+        video_id = None
+        new_comments = comments
+
+    classified = classificar_comentarios(new_comments, classifier)
+
+    if video_id:
+        update_video_info(video_info, video_id)
+    else:
+        video_id = insert_video_info(video_info, user_id, classifier)
+    insert_comments(classified, video_id)
+
+    return video_id, video_info, classifier
+
+
+@router.get("/classificadores")
+def fetch_classifiers():
+    """Classificadores que o usuário pode escolher e se cada um está disponível."""
+    return listar_classificadores()
 
 
 @router.post("/check-video")
@@ -63,6 +122,7 @@ def check_video(payload: YoutubeURLRequest):
             "views": existing_video.get("views"),
             "likes": existing_video.get("likes"),
             "comments": existing_video.get("comments"),
+            "classificador": resumo(existing_video.get("classificador")),
         },
     }
 
@@ -79,18 +139,23 @@ def fetch_dashboard_summary(user_id: str):
 
 @router.post("/full-data")
 def fetch_full_video_data(payload: YoutubeURLRequest):
-    video_id = get_code_url(str(payload.url))
-    video_info = get_video_info(video_id)
-    comments = get_all_comments(video_id)
+    code_url = get_code_url(str(payload.url))
+    existing_video = get_video_by_code_url_and_user(code_url, payload.user_id)
 
-    saved_video_id = video_manager(video_info, comments, payload.user_id)
+    saved_video_id, video_info, classifier = _collect_classify_and_save(
+        code_url=code_url,
+        user_id=payload.user_id,
+        existing_video=existing_video,
+        requested_classifier=payload.classificador,
+    )
+
     saved_comments = get_comments_by_video_id(saved_video_id)
-
     comments_response = _format_comments(saved_comments)
 
     return {
         "video_id": saved_video_id,
         "video": video_info,
+        "classificador": resumo(classifier),
         "total_comments": len(comments_response),
         "comments": comments_response,
     }
@@ -117,14 +182,11 @@ def update_saved_video(video_id: str, user_id: str):
             detail="Vídeo salvo não possui code_url.",
         )
 
-    new_video_info = get_video_info(code_url)
-    new_comments = get_all_comments(code_url)
-
-    saved_video_id = update_video_by_id(
-        video_id=video_id,
-        video_info=new_video_info,
-        comments=new_comments,
+    saved_video_id, new_video_info, classifier = _collect_classify_and_save(
+        code_url=code_url,
         user_id=user_id,
+        existing_video=old_video,
+        requested_classifier=None,
     )
 
     saved_comments = get_comments_by_video_id(saved_video_id)
@@ -141,6 +203,7 @@ def update_saved_video(video_id: str, user_id: str):
     return {
         "video_id": str(saved_video_id),
         "video": new_video_info,
+        "classificador": resumo(classifier),
         "total_comments": len(comments_response),
         "comments": comments_response,
         "previous": {

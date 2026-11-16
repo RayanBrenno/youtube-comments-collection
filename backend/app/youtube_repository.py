@@ -3,12 +3,15 @@ from bson import ObjectId
 from app.database import db
 
 
-def insert_video_info(video_info: dict, user_id: str) -> str:
+def insert_video_info(video_info: dict, user_id: str, classificador: str) -> str:
     now = datetime.utcnow()
 
     video = {
         "code_url": video_info["codeURL"],
         "user_id": user_id,
+        # Modelo que classifica os comentários deste vídeo. As atualizações usam o mesmo,
+        # para não misturar classificadores nos comentários de um vídeo.
+        "classificador": classificador,
         "title": video_info["title"],
         "channel": video_info["channel"],
         "publish_date": video_info["publish_date"],
@@ -31,15 +34,6 @@ def get_video_by_code_url_and_user(code_url: str, user_id: str) -> dict | None:
             "user_id": user_id,
         }
     )
-
-
-def get_video_id_if_exists(code_url: str, user_id: str) -> str | None:
-    video = get_video_by_code_url_and_user(code_url, user_id)
-
-    if not video:
-        return None
-
-    return str(video["_id"])
 
 
 def get_video_by_id_and_user(video_id: str, user_id: str) -> dict | None:
@@ -74,23 +68,6 @@ def update_video_info(video_info: dict, video_id: str) -> None:
     )
 
 
-def update_video_by_id(
-    video_id: str,
-    video_info: dict,
-    comments: list[dict],
-    user_id: str,
-) -> str:
-    existing_video = get_video_by_id_and_user(video_id, user_id)
-
-    if not existing_video:
-        raise ValueError("Vídeo não encontrado para este usuário.")
-
-    update_video_info(video_info, video_id)
-    update_video_comments(comments, video_id)
-
-    return video_id
-
-
 def get_videos_by_user(user_id: str) -> list[dict]:
     videos = db["videos"].find({"user_id": user_id}).sort("last_updated_at", -1)
 
@@ -108,6 +85,7 @@ def get_videos_by_user(user_id: str) -> list[dict]:
             "thumbnail_url": video.get("thumbnail_url"),
             "consulted_at": video.get("consulted_at"),
             "last_updated_at": video.get("last_updated_at"),
+            "classificador": video.get("classificador"),
         }
         for video in videos
     ]
@@ -149,29 +127,22 @@ def get_latest_comment_date(video_id: str):
     return latest_date
 
 
-def update_video_comments(comments: list[dict], video_id: str) -> None:
-    if not comments:
-        return
+def filter_new_comments(comments: list[dict], video_id: str) -> list[dict]:
+    """Só os comentários publicados depois do último já salvo para o vídeo.
 
+    Roda antes da classificação, para não classificar (nem pagar, no caso do Claude)
+    de novo comentários que já estão no banco.
+    """
     latest_date = get_latest_comment_date(video_id)
-    new_comments = []
 
-    for comment in comments:
-        comment_date = datetime.strptime(
-            comment["published_at"],
-            "%Y-%m-%dT%H:%M:%SZ",
-        )
+    if latest_date is None:
+        return list(comments)
 
-        if latest_date is None or comment_date > latest_date:
-            new_comments.append(
-                {
-                    **comment,
-                    "video_id": video_id,
-                }
-            )
-
-    if new_comments:
-        db["comments"].insert_many(new_comments)
+    return [
+        comment
+        for comment in comments
+        if datetime.strptime(comment["published_at"], "%Y-%m-%dT%H:%M:%SZ") > latest_date
+    ]
 
 
 def get_comments_by_video_id(video_id: str) -> list[dict]:
@@ -274,17 +245,3 @@ def get_dashboard_summary(user_id: str) -> dict:
         "latest_video": latest_video,
         "top_videos": top_videos,
     }
-
-
-def video_manager(video_info: dict, comments: list[dict], user_id: str) -> str:
-    video_id = get_video_id_if_exists(video_info["codeURL"], user_id)
-
-    if video_id:
-        update_video_info(video_info, video_id)
-        update_video_comments(comments, video_id)
-        return video_id
-
-    new_video_id = insert_video_info(video_info, user_id)
-    insert_comments(comments, new_video_id)
-
-    return new_video_id
