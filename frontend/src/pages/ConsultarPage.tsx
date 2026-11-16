@@ -1,6 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertTriangle, X, RefreshCcw, Search } from "lucide-react";
+import { AlertTriangle, Brain, X, RefreshCcw, Search } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext";
 import { VideoResultCard } from "../components/VideoResultCard";
@@ -10,9 +10,26 @@ import {
   checkVideoAlreadyConsulted,
   consultYoutubeVideo,
   getApiErrorMessage,
+  getClassificadores,
 } from "../services/youtubeService";
 
 import { type ConsultResponse, type ExistingVideo } from "../types/video";
+import { type Classificador } from "../types/classificador";
+
+const TIPO_LABEL: Record<Classificador["tipo"], string> = {
+  encoder: "Modelos locais (fine-tuned no TCC)",
+  claude: "Claude via API (zero-shot)",
+};
+
+const TIPO_DESCRICAO: Record<Classificador["tipo"], string> = {
+  encoder: "Roda localmente na sua máquina, sem custo por comentário.",
+  claude:
+    "Roda na API da Anthropic: uma chamada por comentário, cobrada por uso.",
+};
+
+function formatPercent(value: number) {
+  return `${(value * 100).toFixed(1).replace(".", ",")}%`;
+}
 
 function formatDate(value?: string | null) {
   if (!value) return "-";
@@ -41,13 +58,81 @@ export function ConsultarPage() {
     null,
   );
 
-  async function consultVideo() {
+  const [classificadores, setClassificadores] = useState<Classificador[]>([]);
+  const [classificadorId, setClassificadorId] = useState("");
+  const [classificadoresError, setClassificadoresError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    getClassificadores()
+      .then((data) => {
+        if (!active) return;
+
+        setClassificadores(data.classificadores);
+
+        const padrao = data.classificadores.find(
+          (c) => c.id === data.padrao && c.disponivel,
+        );
+        const primeiroDisponivel = data.classificadores.find(
+          (c) => c.disponivel,
+        );
+        setClassificadorId((padrao ?? primeiroDisponivel)?.id ?? "");
+      })
+      .catch((err) => {
+        if (!active) return;
+        setClassificadoresError(
+          getApiErrorMessage(err) ||
+            "Não foi possível carregar os modelos de classificação.",
+        );
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const selectedClassificador = classificadores.find(
+    (c) => c.id === classificadorId,
+  );
+
+  const gruposClassificadores = useMemo(
+    () =>
+      (["encoder", "claude"] as const)
+        .map((tipo) => ({
+          tipo,
+          itens: classificadores.filter((c) => c.tipo === tipo),
+        }))
+        .filter((grupo) => grupo.itens.length > 0),
+    [classificadores],
+  );
+
+  const motivosIndisponiveis = useMemo(() => {
+    const porMotivo = new Map<string, string[]>();
+
+    for (const c of classificadores) {
+      if (c.disponivel || !c.motivo) continue;
+      porMotivo.set(c.motivo, [...(porMotivo.get(c.motivo) ?? []), c.nome]);
+    }
+
+    return [...porMotivo.entries()].map(([motivo, nomes]) => ({
+      motivo,
+      nomes,
+    }));
+  }, [classificadores]);
+
+  // Nome do modelo exibido enquanto a consulta roda. Num vídeo já salvo é o modelo dele,
+  // não o selecionado (o backend mantém o classificador da primeira consulta).
+  const [consultandoCom, setConsultandoCom] = useState("");
+
+  async function consultVideo(nomeModelo?: string) {
     if (!user?.id) {
       setError("Usuário não identificado.");
       return;
     }
 
     try {
+      setConsultandoCom(nomeModelo ?? selectedClassificador?.nome ?? "");
       setLoading(true);
       setResult(null);
       setError("");
@@ -55,6 +140,7 @@ export function ConsultarPage() {
       const data = await consultYoutubeVideo({
         url,
         user_id: user.id,
+        classificador: classificadorId || undefined,
       });
 
       setResult(data);
@@ -107,9 +193,10 @@ export function ConsultarPage() {
   }
 
   async function handleContinueConsult() {
+    const nomeModeloDoVideo = existingVideo?.classificador?.nome;
     setShowAlreadyConsultedModal(false);
     setExistingVideo(null);
-    await consultVideo();
+    await consultVideo(nomeModeloDoVideo);
   }
 
   function handleCancelConsult() {
@@ -218,6 +305,20 @@ export function ConsultarPage() {
                 <p className="text-white/50">
                   Para ver o comparativo, use a opção de atualização.
                 </p>
+
+                {existingVideo?.classificador && (
+                  <p className="text-white/50 flex items-start gap-2">
+                    <Brain className="w-4 h-4 mt-0.5 shrink-0 text-red-300" />
+                    <span>
+                      Nos dois casos, os comentários novos serão classificados
+                      com{" "}
+                      <span className="text-white/80 font-semibold">
+                        {existingVideo.classificador.nome}
+                      </span>
+                      , o mesmo modelo da primeira consulta deste vídeo.
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -279,6 +380,75 @@ export function ConsultarPage() {
               />
             </div>
 
+            <div>
+              <label
+                htmlFor="classificador"
+                className="block text-sm text-white/70 mb-2"
+              >
+                Modelo de classificação de sentimento
+              </label>
+
+              <select
+                id="classificador"
+                value={classificadorId}
+                onChange={(e) => setClassificadorId(e.target.value)}
+                disabled={classificadores.length === 0}
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white outline-none focus:border-red-500 disabled:opacity-60"
+              >
+                {classificadores.length === 0 && (
+                  <option value="" className="bg-gray-900">
+                    {classificadoresError
+                      ? "Padrão do servidor"
+                      : "Carregando modelos..."}
+                  </option>
+                )}
+
+                {gruposClassificadores.map((grupo) => (
+                  <optgroup
+                    key={grupo.tipo}
+                    label={TIPO_LABEL[grupo.tipo]}
+                    className="bg-gray-900"
+                  >
+                    {grupo.itens.map((c) => (
+                      <option
+                        key={c.id}
+                        value={c.id}
+                        disabled={!c.disponivel}
+                        className="bg-gray-900"
+                      >
+                        {c.nome} — acurácia {formatPercent(c.acuracia_tcc)} no
+                        TCC
+                        {c.disponivel ? "" : " (indisponível)"}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+
+              {selectedClassificador && (
+                <p className="text-xs text-white/40 mt-2">
+                  {TIPO_DESCRICAO[selectedClassificador.tipo]} F1 macro no TCC:{" "}
+                  {selectedClassificador.f1_macro_tcc
+                    .toFixed(4)
+                    .replace(".", ",")}
+                  .
+                </p>
+              )}
+
+              {motivosIndisponiveis.map(({ motivo, nomes }) => (
+                <p key={motivo} className="text-xs text-amber-200/70 mt-1">
+                  {nomes.join(", ")}: {motivo}
+                </p>
+              ))}
+
+              {classificadoresError && (
+                <p className="text-xs text-amber-200/70 mt-2">
+                  {classificadoresError} A consulta usará o modelo padrão do
+                  servidor.
+                </p>
+              )}
+            </div>
+
             {error && <p className="text-sm text-red-400">{error}</p>}
 
             <button
@@ -297,8 +467,15 @@ export function ConsultarPage() {
       )}
 
       {loading && (
-        <div className="mt-8 bg-white/5 border border-white/10 rounded-xl p-4 text-white/70">
-          Carregando informações do vídeo e comentários...
+        <div className="mt-8 bg-white/5 border border-white/10 rounded-xl p-4 text-white/70 space-y-1">
+          <p>
+            Coletando os comentários e classificando o sentimento
+            {consultandoCom ? ` com ${consultandoCom}` : ""}
+            ...
+          </p>
+          <p className="text-sm text-white/40">
+            Em vídeos com muitos comentários isso pode levar alguns minutos.
+          </p>
         </div>
       )}
 
@@ -327,6 +504,7 @@ export function ConsultarPage() {
           <VideoResultCard
             video={result.video}
             totalComments={result.total_comments}
+            classificador={result.classificador}
           />
 
           <YoutubeCommentsList

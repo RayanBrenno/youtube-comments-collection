@@ -175,6 +175,7 @@ export function AtualizarPage() {
           <VideoResultCard
             video={after.video}
             totalComments={after.total_comments}
+            classificador={after.classificador}
             previousStats={{
               views: before.views,
               likes: before.likes,

@@ -6,6 +6,7 @@ import {
   type UpdateVideoResponse,
 } from "../types/video";
 import { type DashboardSummary } from "../types/dashboard";
+import { type ClassificadoresResponse } from "../types/classificador";
 
 export function getApiErrorMessage(err: unknown): string {
   const error = err as {
@@ -32,6 +33,16 @@ export function getApiErrorMessage(err: unknown): string {
 interface VideoRequestPayload {
   url: string;
   user_id: string;
+  /** id de um classificador; omitido = padrão do backend. */
+  classificador?: string;
+}
+
+export async function getClassificadores(): Promise<ClassificadoresResponse> {
+  const { data } = await api.get<ClassificadoresResponse>(
+    "/youtube/classificadores",
+  );
+
+  return data;
 }
 
 export async function checkVideoAlreadyConsulted(

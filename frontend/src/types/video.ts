@@ -1,4 +1,5 @@
 import { type YoutubeComment } from "./comment";
+import { type ClassificadorResumo } from "./classificador";
 
 export interface YoutubeVideo {
   id?: string;
@@ -23,10 +24,13 @@ export interface ExistingVideo {
   thumbnail_url?: string | null;
   last_updated_at?: string | null;
   consulted_at?: string | null;
+  classificador?: ClassificadorResumo | null;
 }
 
 export interface HistoryVideo {
   idVideo: string;
+  /** id do classificador usado nos comentários deste vídeo. */
+  classificador?: string | null;
   code_url?: string;
   title: string;
   channel: string;
@@ -59,6 +63,7 @@ export interface CheckVideoResponse {
 
 export interface ConsultResponse {
   video: YoutubeVideo;
+  classificador?: ClassificadorResumo | null;
   comments: YoutubeComment[];
   total_comments: number;
 }
@@ -77,4 +82,5 @@ export interface VideoResultCardProps {
   video: YoutubeVideo;
   totalComments?: number;
   previousStats?: PreviousVideoStats;
+  classificador?: ClassificadorResumo | null;
 }

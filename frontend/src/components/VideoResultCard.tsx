@@ -5,6 +5,7 @@ import {
   Calendar,
   ExternalLink,
   TrendingUp,
+  Brain,
 } from "lucide-react";
 
 import { type VideoResultCardProps } from "../types/video";
@@ -54,6 +55,7 @@ export function VideoResultCard({
   video,
   totalComments,
   previousStats,
+  classificador,
 }: VideoResultCardProps) {
   const youtubeUrl = getYoutubeVideoUrl(video);
 
@@ -175,6 +177,16 @@ export function VideoResultCard({
                   Comentários coletados:{" "}
                   <span className="font-semibold">
                     {formatNumber(totalComments)}
+                  </span>
+                </div>
+              )}
+
+              {classificador && (
+                <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white/50 flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-red-300" />
+                  Sentimento classificado por:{" "}
+                  <span className="text-white/80 font-semibold">
+                    {classificador.nome}
                   </span>
                 </div>
               )}
