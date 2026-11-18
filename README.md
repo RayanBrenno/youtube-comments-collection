@@ -112,14 +112,14 @@ usuário. A aplicação usa os mesmos modelos e a mesma configuração dos exper
 
 ### Arquitetura
 
-```
-Navegador (React)  --HTTP/JSON-->  API (FastAPI)  --->  YouTube Data API v3
-                                        |
-                                        +--->  Classificador
-                                        |        - encoders ajustados (locais, PyTorch)
-                                        |        - Claude (API da Anthropic)
-                                        |
-                                        +--->  MongoDB (usuários, vídeos, comentários)
+```mermaid
+flowchart LR
+    FE["Frontend<br/>React + Vite"] -->|"HTTP/JSON"| API["Backend<br/>FastAPI"]
+    API -->|"dados do vídeo e comentários"| YT["YouTube Data API v3"]
+    API --> CL{"Classificador<br/>escolhido"}
+    CL -->|"local"| ENC["Encoders ajustados<br/>PyTorch + Transformers"]
+    CL -->|"API"| CLA["Claude 5.5<br/>API da Anthropic"]
+    API -->|"usuários, vídeos<br/>e comentários"| DB[("MongoDB")]
 ```
 
 O backend não depende do código de `scripts/`: ele só lê os encoders já treinados em
