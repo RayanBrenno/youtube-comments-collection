@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0801", "texto": "Boa noite D André. Maravilha de vídeo. Excelente dicas .ameiiii. Deus te abençoe."},
+{"id": "c0802", "texto": "Esses vídeos são excelentes. Nos dão uma explicação inteligente sobre a natureza desses animais. Nunca olharei mais para eles de outra forma. Obrigado."},
+{"id": "c0803", "texto": "Ney você é pica Caraí ❤❤"},
+{"id": "c0804", "texto": "Eu nem sabia que essa droga existia. Caramba que chocante"},
+{"id": "c0805", "texto": "Russia e' melhor, recebe passaporte depois de um ano, partiu Россия !!! 🤠💪🏻🐻слава России"},
+{"id": "c0806", "texto": "Jogaram contra ninguém esta bosta de seleção!"},
+{"id": "c0807", "texto": "Onde coloca mais likes ?"},
+{"id": "c0808", "texto": "Olha que incrível eu nunca pensei que fosse um bichinho ontem ainda tirei um da parede e joguei lá fora tadinho😢 não vou mais fazer isso 😅"},
+{"id": "c0809", "texto": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk muito bom"},
+{"id": "c0810", "texto": "Cadres cadê o kai"},
+{"id": "c0811", "texto": "Obrigada ! Já chegou? Gratidão!"},
+{"id": "c0812", "texto": "Que vídeo bacana, é maravilhoso assistir a um vídeo que não seja dublado por IA. Parabéns 👏🏼"},
+{"id": "c0813", "texto": "3:09 peguei a referência 🎾🦅"},
+{"id": "c0814", "texto": "gente e esses cabelos soltos? alô produção....."},
+{"id": "c0815", "texto": "Óbvio que há infinitamente mais \" coisas \" ou fenômenos não visualizados , somos pequeninos nesse plano / ângulo . Impossível assim a grosso modo de comparação, deve ser para um filhote de águia ainda dentro do ovo , não pode visualizar muito menos compreender tudo que o aguarda lá fora , tantas possibilidades . Levando em conta que a humanidade é muito mais inteligente , o desconhecido também se amplia infinitamente."},
+{"id": "c0816", "texto": "Acreditando em tudo, menos em Deus né Anita."},
+{"id": "c0817", "texto": "Esse é um comercial de uma empresa mais bem feita que já vi, usando humor e bons atores para nos prender na história, a turma do burrão é demais!"},
+{"id": "c0818", "texto": "Tomei logo umas 10, cê viu?"},
+{"id": "c0819", "texto": "GUIMA,RECOMENDO VC JOGAR \"SERRA DE DEUS\" E UM JOGO DE TERROR BRASILEIRO,O JAZZGHOST JOGOU"},
+{"id": "c0820", "texto": "Vim por conta dos irmãos 😢"},
+{"id": "c0821", "texto": "kkkk muito bom"},
+{"id": "c0822", "texto": "Tiro com vassoura e jogo no lixo. Papo furado. Só lero-lero. Clickbait"},
+{"id": "c0823", "texto": "Oi, que liquidificador é esse com copo de vidro?"},
+{"id": "c0824", "texto": "Eu coloco abacate em quase todas as saladas suas dicas são muito boas 😋👏👏👏"},
+{"id": "c0825", "texto": "Anos atrás li que engenheiros navais da extinta União Soviética foram contratados a peso de ouro para construir e ensinar a construir estes barcos submersíveis na Colômbia. Mesmo assim é preciso muito conhecimento para montar estes submersíveis primitivos. A navegação deve ser terrível, pois num mar apenas ondulado a válvula do snorkel é temporariamente coberta pela onda (30 segundos, por exemplo) e o motor diesel aspira o ar da cabine e a pressão do ar diminui… e os tripulantes sentem os tímpanos quase arrebentando. Num mar revolto deve ser muito pior. Acho que desligam o motor e ficam boiando até o tempo melhorar. Como a navegação é precária acredito que ao se aproximar do destino serão localizados por barcos de pesca que os guiará até a “desova”. O risco é grande e a grana também, provavelmente. Eu não entraria numa porra desta nem a revolver! 😂"},
+{"id": "c0826", "texto": "✨ Quando você se torna Membro, você não só desbloqueia conteúdos exclusivos (bastidores, perguntas para o Bôco, salves em vídeo), mas também passa a fazer parte da construção do canal. ➡ É o seu apoio que garante que o Top10 continue crescendo e produzindo com mais qualidade. 👉 Clique em “SEJA MEMBRO”!"},
+{"id": "c0827", "texto": "Eu não sabia que era assim não hein 🇧🇷"},
+{"id": "c0828", "texto": "Esse comercial é mais top que ja vi na vida. 😊😊😊"},
+{"id": "c0829", "texto": "Canta com muita alma ❤"},
+{"id": "c0830", "texto": "Parabéns aos policiais! Graças a Deus essas 3 desgraças foram para o inferno!"},
+{"id": "c0831", "texto": "Parabéns pelo vídeo! Muito agregador!"},
+{"id": "c0832", "texto": "Essa ficou top em"},
+{"id": "c0833", "texto": "Eita pedrada com essa música 🎶 ❤"},
+{"id": "c0834", "texto": "A teoria das cordas propõe que existam 11 dimensões. No modelo de inflação cósmica, o Big Bang não criou um único universo, mas infinitos “universos-bolha”, com leis físicas próprias. Cada bolha = uma realidade paralela. Só na Via Láctea, já foram detectados milhares de exoplanetas, e vários estão na chamada “zona habitável” (temperatura ideal para água líquida). Seria estatisticamente improvável que a Terra seja o único planeta com vida no universo. O que falta é provar."},
+{"id": "c0835", "texto": "Essa ilusão de ótica é foda viuu 😂😂❤❤❤"},
+{"id": "c0836", "texto": "é uma questao de QI baixo e educacao deficitaria"},
+{"id": "c0837", "texto": "AMEI ANITTAAA , ARRASOU AMIGA! VIM PELO POGRAMA!!!❤"},
+{"id": "c0838", "texto": "A lapada seca 😂😂😂😂😂"},
+{"id": "c0839", "texto": "eu quero parar de fazer multitaresfas e dormir menos de 7 horas por dia"},
+{"id": "c0840", "texto": "Pq o Estado tem poucas pessoas morando e é domina por uma família corrupta que domina a política."},
+{"id": "c0841", "texto": "Oi Adriano, depois de retirar a massa da geladeira, quanto tempo até poder abrir e assar? E o forno pré aquece por quanto tempo?"},
+{"id": "c0842", "texto": "Caralho, q ódio ainda sentir saudades de quem só me destruiu 😩"},
+{"id": "c0843", "texto": "Espirito santo da verdade socorro"},
+{"id": "c0844", "texto": "Fiquei em um rodovia em Indianapolis sem gasolina em uma camionete durante uma nevasca - 20° . Sem gasolina o aquecimento da camionete para. Pensei que ia morrer de frio. Era 4 horas da manhã fomos socorrido as 7 da manhã"},
+{"id": "c0845", "texto": "Moha, chama o Cadu pra ensinar chili oil, por favoor!"},
+{"id": "c0846", "texto": "Essa não rendeu"},
+{"id": "c0847", "texto": "Na nossa cabeça???? na tua cabeça que nunca estudou a geografia do Brasil."},
+{"id": "c0848", "texto": "Parabéns aos nobres colegas policiais, desejo recuperação aos feridos, graças a Deus nenhuma baixa do nosso lado!"},
+{"id": "c0849", "texto": "Tudo de bom 😋"},
+{"id": "c0850", "texto": "Fiz hoje, ficou muito bom 😋"}
+]

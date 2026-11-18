@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0601", "texto": "O look 1 e 2 tão divos AAA ela cresceram vai ficar na memória ela menores"},
+{"id": "c0602", "texto": "Top o vídeo bem informativo .GRAÇAS A DEUS EM NOME DO NOSSO SENHOR JESUS CRISTO no Brasil não temos um frio tão rigoroso mas os caminhões deveriam ser projetado pra suportar temperaturas baixa de pelo menos -20 graus para cargas para região sul e até mesmo países vizinhos como Argentina Bolívia Chile de frio mas intenso. GRAÇA E PAZ!"},
+{"id": "c0603", "texto": "Amo de mais leite ninho, puro sem açúcar só com água bem gelada até virar um creme maravilhoso!"},
+{"id": "c0604", "texto": "Meu é uma marca parecida com huhu"},
+{"id": "c0605", "texto": "Isso tá muito bom"},
+{"id": "c0606", "texto": "Q jogão, Portugal mereceu dms essa vitória!!"},
+{"id": "c0607", "texto": "Só eu que acho, mais a série esta ficando mais interessante?"},
+{"id": "c0608", "texto": "Aaa eu amei o primeiro episódioo"},
+{"id": "c0609", "texto": "Eu tenho certeza que g1 nunca vai responder nos comentárita então não adianta nós dar nossa opinião e isso bjs Rsssss🎉🎉🎉🎉🎉 só Fé"},
+{"id": "c0610", "texto": "Cr7 parecia eu batendo pênalti"},
+{"id": "c0611", "texto": "Já quero um show deles 😍😍😍😍😍😍"},
+{"id": "c0612", "texto": "Esse narrador é bom"},
+{"id": "c0613", "texto": "Klyslany Alves João Netto"},
+{"id": "c0614", "texto": "Faz um de saturno"},
+{"id": "c0615", "texto": "Aí genteeeeeee eu tô preso nessa entrevista"},
+{"id": "c0616", "texto": "Voltável que música linda 💙"},
+{"id": "c0617", "texto": "Que vídeo bom cara! Sempre gostei muito de astronomia, mas não sabia que Urano era tão interessante"},
+{"id": "c0618", "texto": "Meu Deus, eu faco tudo errado (so as notificações que sao desligadas), por isso vivo cansada! vou tentar melhorar!😅"},
+{"id": "c0619", "texto": "Um dia normal no RJ isso daí. E vai piorar, pq as leis e os políticos ainda mais do PT e Psol, defende esses marginais. Tudo por eles, nada pra gente. Eles que financiam esses políticos safados"},
+{"id": "c0620", "texto": "Cara, que doideira! Como sempre um baita video! Parabéns"},
+{"id": "c0621", "texto": "Melhor narrador no 🎧🎤🇧🇷 Rogério Vaughan 👏👏👏"},
+{"id": "c0622", "texto": "Muito bom , gostei muito ❤"},
+{"id": "c0623", "texto": "Roda solta mais fraco de todos, poderia ser muito bom pro Igorfina, se não tivesse esse Charles ai"},
+{"id": "c0624", "texto": "Guerra não é videogame."},
+{"id": "c0625", "texto": "Apenas ouça hélio couto e pronto vai entender tudo isso! Com todo o sentido possível aplicado na nossa realidade , a realidade inconsciente que nem percebemos!"},
+{"id": "c0626", "texto": "Pooowww dilera melhora qlqlr programa"},
+{"id": "c0627", "texto": "É claro né é de terra todo mundo tem tem que colocar pé de rock"},
+{"id": "c0628", "texto": "Erro meu nunca foi😢"},
+{"id": "c0629", "texto": "Pegou uma linha dessas no parachoque do caminhão do meu pai e fez um belo de um rasgo"},
+{"id": "c0630", "texto": "Lavar o arroz antes nem pensar ."},
+{"id": "c0631", "texto": "Te amo Neymar ❤❤❤"},
+{"id": "c0632", "texto": "Obrigado. Muito didático"},
+{"id": "c0633", "texto": "5:16 descrição detalhada do testículo de um Smurf"},
+{"id": "c0634", "texto": "Mundo da ilusão! Morreu tarde 😅🙏"},
+{"id": "c0635", "texto": "Vibe que relaxa!"},
+{"id": "c0636", "texto": "Saudações! Será então que nesse contexto em que somos criações de deuses imperfeitos e que Jesus teria a missão de resgatar-nos, é que o Deus do AT é mau e vingativo, e o do NT é um Deus mais amoroso? Mesmo não acreditando, acho uma hipótese interessante. Grande abraço"},
+{"id": "c0637", "texto": "Liana vate Soares"},
+{"id": "c0638", "texto": "gente Angelo ganhou oq?"},
+{"id": "c0639", "texto": "Chega logo chama 🔥"},
+{"id": "c0640", "texto": "\"Educado inclusive pra não sair com filha de pobre\", o desespero dela por dinheiro faz ela não conseguir nem enxergar a pessoa que é o \"herdeiro\" que ela quer seduzir. O Afonso é \"educado\", justamente porque ele tem um bom caráter e jamais teria qualquer problema em se relacionar com alguém que é \"filha de pobre\". E é uma questão de caráter pessoal, nem é de educação familiar, porque muita gente da família dele não ia achar nem um pouco legal ele namorar uma \"filha de pobre\", mas ele não liga pra isso, pois tem bom coração!"},
+{"id": "c0641", "texto": "Eu prefiro os marcadores touch"},
+{"id": "c0642", "texto": "qual nome da musica do vido alguem sabe?"},
+{"id": "c0643", "texto": "Um dos melhores"},
+{"id": "c0644", "texto": "Talvez a física quântica nos explique o fato de experenciarmos situações já vividas noutros lugares quando a estes retornamos, sem saber que lá estivemos. \"Déjà-vu\"."},
+{"id": "c0645", "texto": "Tadinha da Glória com esses muleques que só tem lábia e mal gosto... salmao horroroso picado e amontoado na travessa"},
+{"id": "c0646", "texto": "Foi perfeita a atuação da Bella Campos nessa cena... o cinismo, o deboche e o mau caratismo... senti daqui! foi prefeita!"},
+{"id": "c0647", "texto": "Essa de folgar segunda , iniciio de semana é muito comum no meio de pessoas bem sucedidas"},
+{"id": "c0648", "texto": "Tava torcendo pra sair um vídeo seu"},
+{"id": "c0649", "texto": "Como disenteria o dinheiro compra tudo né"},
+{"id": "c0650", "texto": "Deu pra perceber que não era só drama… é a verdadeira sofrencia em forma de música!"}
+]

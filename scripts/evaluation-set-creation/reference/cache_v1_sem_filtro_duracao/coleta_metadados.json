@@ -1,0 +1,59 @@
+{
+  "coletado_em_por_categoria": {
+    "25": "2026-10-22T23:09:06.105787+00:00",
+    "17": "2026-10-22T23:09:09.901198+00:00",
+    "20": "2026-10-22T23:09:15.291655+00:00",
+    "10": "2026-10-22T23:09:19.483350+00:00",
+    "24": "2026-10-22T23:09:24.220955+00:00",
+    "28": "2026-10-22T23:09:28.226197+00:00",
+    "27": "2026-10-22T23:09:32.566832+00:00",
+    "23": "2026-10-22T23:09:36.492985+00:00",
+    "22": "2026-10-22T23:09:41.361947+00:00",
+    "26": "2026-10-22T23:09:45.299946+00:00"
+  },
+  "categorias": {
+    "25": "Notícias e Política",
+    "17": "Esportes",
+    "20": "Games",
+    "10": "Música",
+    "24": "Entretenimento",
+    "28": "Ciência e Tecnologia",
+    "27": "Educação",
+    "23": "Comédia",
+    "22": "Pessoas e Blogs",
+    "26": "Estilo e Tutoriais"
+  },
+  "parametros_busca": {
+    "endpoint": "search.list",
+    "type": "video",
+    "regionCode": "BR",
+    "relevanceLanguage": "pt",
+    "order": "viewCount",
+    "publishedAfter": "2025-01-01T00:00:00Z",
+    "publishedBefore": "2026-10-01T00:00:00Z",
+    "max_paginas_por_categoria": 5
+  },
+  "criterios": {
+    "videos_por_categoria": 5,
+    "comentarios_min": 300,
+    "comentarios_max": 10000,
+    "views_min": 10000,
+    "duracao_min_s": 181,
+    "idiomas_aceitos": [
+      "pt",
+      "pt-br"
+    ],
+    "pais_canal": "BR",
+    "um_video_por_canal_por_categoria": true,
+    "exclui": [
+      "lives",
+      "conteúdo infantil",
+      "Shorts",
+      "comentários desativados"
+    ]
+  },
+  "totais": {
+    "selecionados": 18,
+    "avaliados": 2330
+  }
+}

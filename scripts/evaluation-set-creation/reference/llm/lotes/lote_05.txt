@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0201", "texto": "o tonigon tinha acabado de construir os muros e já destruiram tudo, tadinho kjkk"},
+{"id": "c0202", "texto": "*Quem anda de moto (ando a mais de 30 anos), a uns 20 anos só tiro a antena pra trocar e nunca deixo abaixada e nesse tempo, já me livrou 3 vezes de linhas. Antigamente anos 80 o pessoal empinava pipas só finais de semana pq mesmo os novos já trabalhavam, hj se vê um barbado soltando pipa em uma segunda feira de manhã...*"},
+{"id": "c0203", "texto": "Eu gostei muito do 1❤❤❤😊"},
+{"id": "c0204", "texto": "Ô malandrão tu é formado em qual Instituto de astrofísica para podrr afirmar o quê você através das suas fake news, no ITA é que NÃO é tu NÃO chegaria nem ao primeiro degrau de tanta asnisse, debilidade mental e insignificância astronômica. Seria muito bom ter ido ver o filme do Pilé pessoal, fika dica. 😅😊😂"},
+{"id": "c0205", "texto": "Sextou com lançamento 😍❤️"},
+{"id": "c0206", "texto": "agora será que dá jon jones x poatan"},
+{"id": "c0207", "texto": "Se não entendo os outros evangelhos, esse então...."},
+{"id": "c0208", "texto": "Eu tenho 10 anos e sou youtuber"},
+{"id": "c0209", "texto": "Tenho essa dor mais de 4 messes Moro em São Mateus espírito santo"},
+{"id": "c0210", "texto": "Bem melhor no solo o brilho e natural adoro"},
+{"id": "c0211", "texto": "MDS! O Chung 😮 Arrasou!"},
+{"id": "c0212", "texto": "Esses Caras...Sempre se lascando 🤣🤣🤣🤣🤣🤣🤣"},
+{"id": "c0213", "texto": "Eu ja pensei q o jogo do portugual espanha e frança q eles iriam vira eles nao ia perder atoa quase sempre estou certo ☠☠"},
+{"id": "c0214", "texto": "Ganho novo inscrito, já ativei até o sininho"},
+{"id": "c0215", "texto": "Brasil deveria anexar Guiana Francesa, Suriname, Guiana e também anexar metade da Venezuela outra metade ficaria com os EUA., assim teríamos muito Petróleo e uma boa parte do mar do Caribe.,Aqui na Flórida é o mesmo Costa da Flórida do lado do Golfo da América menos de 50% são aptas para construir e os outros 50% tiveram MUITAS intervenções de engenharia para se tornar viável."},
+{"id": "c0216", "texto": "Melhor na vos do jhenrique juliano"},
+{"id": "c0217", "texto": "Boa tarde ! Fiz esse bolo e ficou maravilhoso e bem fofinho. Vou fazer novamente... Parabéns 😊😊😊"},
+{"id": "c0218", "texto": "9:22 apenas pessoas inteligentes entenderiam isso...."},
+{"id": "c0219", "texto": "Por isso que eua joga logo bomba kkkkkk"},
+{"id": "c0220", "texto": "Infelizmente tem pessoas assim no mercado e empresas. PQP! Que raiva"},
+{"id": "c0221", "texto": "cade o dilera KKKKKKKKK"},
+{"id": "c0222", "texto": "Essa música tá surreal de linda !!"},
+{"id": "c0223", "texto": "É muita besteira para nossa mente"},
+{"id": "c0224", "texto": "Véio, a Bruna tem 2m? PQP. Qu e mulher grande....E linda!"},
+{"id": "c0225", "texto": "100 polícia contra 3 criminosos? A polícia deve treinar mais!"},
+{"id": "c0226", "texto": "Eu ainda vou viver nesse Brasil sem esse nojento do 9dedos . Corrupto"},
+{"id": "c0227", "texto": "Vc é muito fofinho ❤"},
+{"id": "c0228", "texto": "Estou um vídeo atrás do outro. Estou maratonando do conteudo."},
+{"id": "c0229", "texto": "Poderíamos dizer tbm que para uma marinha inimiga seria impossível invadir o Brasil pelo Amapá ou pela foz do Amazonas ?"},
+{"id": "c0230", "texto": "Peguei um frio uma vez Lata do caminhão estalava casa estalo😂😂"},
+{"id": "c0231", "texto": "No começo do mandato é fácil manter um padrão ate positivo quando o anterior deixou o País no positivo, depois que tem que \"caminhar com as próprias pernas\" é só ladeira abaixo!"},
+{"id": "c0232", "texto": "MEU CHEFINHO AGRADECE TENTA FAZER UMA COMUNIDADE ANTI-TROLL"},
+{"id": "c0233", "texto": "@Henrique Juliano sabe o ponto fraco dá sofrecia"},
+{"id": "c0234", "texto": "Gosto da forma q ela faz a receita explica bem direitinho com paciência"},
+{"id": "c0235", "texto": "Ué mas já não acabou a creative scaud? Não lembro como escreve kk"},
+{"id": "c0236", "texto": "Vídeo demais!! Parabéns pela qualidade do conteúdo!"},
+{"id": "c0237", "texto": "4:06 bom que nem tem mosquitos"},
+{"id": "c0238", "texto": "Delícia de saladas😋😋😋 Gostei da variedade dos molhos, me inspirou bastante...❤👏👏👏👏"},
+{"id": "c0239", "texto": "Eh nas eleições passadas eu fui votar no Jair bolsonaro e diretrizes 22 e apareceu a foto do Satanás di ladrão e mandou e confirma eu falei com a pessoa que me atendeu ela falou que era a sim mesmo eu cancelei porque ele não deixou eu entrar com celular eu não tinha como filmar ou acontecidos anulei e sai fora pensando no a Que aconteceu"},
+{"id": "c0240", "texto": "Autônomos patrocinado pela starlink 😂😂😂"},
+{"id": "c0241", "texto": "Salve-se quem puder"},
+{"id": "c0242", "texto": "OU não vai ter ❤"},
+{"id": "c0243", "texto": "ISSO MUDA TUDO BUFT 9:36"},
+{"id": "c0244", "texto": "Fui para o Alaska, em um motorhome, uma vez para nunca mais kkkk"},
+{"id": "c0245", "texto": "Adorei ❤. Embu das Artes/SP."},
+{"id": "c0246", "texto": "Os comentaristas \"tava vivo na luta\" Jiri: carai maluco o que ta acontecendo"},
+{"id": "c0247", "texto": "O meu arroz queima 😢"},
+{"id": "c0248", "texto": "Ainda bem que só fumo maconha e bebo whisky kkkkk"},
+{"id": "c0249", "texto": "o nome em inglês é tipo 'seucu' em português, isso é engraçado demais"},
+{"id": "c0250", "texto": "Aque em Dracena Est são Paulo o inverno vai amanha 1145 da noite"}
+]

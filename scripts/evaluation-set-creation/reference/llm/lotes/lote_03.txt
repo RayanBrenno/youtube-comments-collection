@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0101", "texto": "Que trio, meus senhores."},
+{"id": "c0102", "texto": "QUE BACANA VER UM JOVEM TÃO TALENTOSO M SE SAIR TÃO BEM NA COZINHA.... EU COMM 60 ANOS Ñ SEI FAZER UM PUDIM APRESENTAVEL. O SEU DE LEITEIRA FICOU LINDO... BOA SORTE. VOU SEGUIR SEU TRABALHO DEUS TE ABENÇOE..."},
+{"id": "c0103", "texto": "Sempre maravilhosos! Amo!"},
+{"id": "c0104", "texto": "culpa do mamae falei."},
+{"id": "c0105", "texto": "a juiz e muito bom robano pelo brasil a anda bem porque eu ia la na casa dela e eu pegava uma basuca e lacamicio"},
+{"id": "c0106", "texto": "eu jurei que era a Helena Rizzo"},
+{"id": "c0107", "texto": "Oii Toni boa noite sou muito seu fã"},
+{"id": "c0108", "texto": "Posso colocar creme de leite no lugar do requeijão? Não gosto de queijo."},
+{"id": "c0109", "texto": "Não conhecia o canal. Muito bom, por favor continue"},
+{"id": "c0110", "texto": "Oi sou seu fã ❤❤❤"},
+{"id": "c0111", "texto": "Brasil :empate com sabor de vitoria e alívio ."},
+{"id": "c0112", "texto": "O talento desses três é incomparável!"},
+{"id": "c0113", "texto": "Arroz sem lavar, Deus me livre!"},
+{"id": "c0114", "texto": "Olá família linda, vou fazer agora obgda.❤❤❤"},
+{"id": "c0115", "texto": "A Glória: o Arroz pois é né kkkkk muito divaaaa olhar de quem sabe o que faz"},
+{"id": "c0116", "texto": "descobri agora que ela era um problema, sempre achei bonito elas e muito interessante, a forma como ela é. sabia parcialmente que era uma questao pras roupas,. mas se cuidar do guarda roupa, pra mim nao tem problemas deixar elas nas paredes"},
+{"id": "c0117", "texto": "quando sai o próximo episodio ?"},
+{"id": "c0118", "texto": "Já tive um acidente desses com linha chinela.. um corte profundo no dedo, na HR não senti e nem me dei conta , depois que vi , nem tinha a noção da gravidade do corte.. Quase perdi o dedo indicador 😯😬 Desde então, pipa nunca mais."},
+{"id": "c0119", "texto": "Eu tenho uma acrílica"},
+{"id": "c0120", "texto": "Eu trituro o vidro no liquidificador p fazer"},
+{"id": "c0121", "texto": "Nenhum brasileiro foi forçado a lutar pela Ucrânia, muito menos enganado por falsas promessas como na Rússia. O esclarecimento das condições para o alistamento na Ucrânia é ampla e cumprida rigorosamente. Vai quem quer e assume totalmente os riscos. Ponto!"},
+{"id": "c0122", "texto": "Imagina se descobrirmos uma subnautica nas luas de Urano"},
+{"id": "c0123", "texto": "É porque n viu a linha indonésia kk se garrar na antena de uma casa, vc traz a antena"},
+{"id": "c0124", "texto": "Qta bobagem, coloco o alho com o óleo, frito, coloco o arroz a água tudo na panela de pressão qdo começa \"chiar\" espera 3 minutos desliga e deixa sair a pressão sem abrir a panela, tá pronto bem soltinho e rapidinho. Kkkkkk. Nutellada. 😂😂😂😂😂"},
+{"id": "c0125", "texto": "Essa seleção africana e muito forte , venceu facil a coreia .."},
+{"id": "c0126", "texto": "Feliz ano cadres ❤❤"},
+{"id": "c0127", "texto": "Joga garden of banban pls"},
+{"id": "c0128", "texto": "parabéns pelo conteúdo"},
+{"id": "c0129", "texto": "Lindíssima a casa"},
+{"id": "c0130", "texto": "😮estamos de olho. Não colocou a digital,"},
+{"id": "c0131", "texto": "Soraya esa bebê e do teu ex marido"},
+{"id": "c0132", "texto": "Oq fizeram cm o cabelo do chung💥💥"},
+{"id": "c0133", "texto": "Delícia muito rápido"},
+{"id": "c0134", "texto": "Maravilhoso demais 😍😍😍 PARABÉNS 👏🏾👏🏾👏🏾"},
+{"id": "c0135", "texto": "Minha conterrânea Dani realmente é muito boa na cozinha mas tenho que admitir que ela é difícil de se lidar e conviver kkkk mandona e chata toda vida"},
+{"id": "c0136", "texto": "VOU NEM CABAR DE VER ISSO. PERDA DE TEMPO"},
+{"id": "c0137", "texto": "Marília tbm queria ele 😂😂❤"},
+{"id": "c0138", "texto": "É só eu que assisto esse vídeo com calafrios kkkkkkk"},
+{"id": "c0139", "texto": "Ancelloti conhece muito bem a qualidade de Endrick e o quanto ele é importante quando o Brasil está sofrendo, ele faz a diferença quando entra no 2° tempo, Ancelloti errou muito em não colocar ele pra jogar, deu nisso mesmo 🤦‍♂️"},
+{"id": "c0140", "texto": "Que legal o quarto e vocês 7:33"},
+{"id": "c0141", "texto": "4:32 Com tanto conteudo de IA Logo depois Material oficial das Argencias Paciais? ia tentando falar Espaciais kkkkkkkkkkkkkkkkkk sobre vídeos feito por ia com voz de IA?"},
+{"id": "c0142", "texto": "cocielo com a calça rasgada kkkk"},
+{"id": "c0143", "texto": "Muito bom, que continue assim, deixa um lugar natural se manter natural, vão fazer estrada em SP que já tá tudo poluído 😂"},
+{"id": "c0144", "texto": "O bolo que mais faço aqui em casa 😊 .agora mesmo vou fazer😊."},
+{"id": "c0145", "texto": "estava achando super interessante o vídeo, até a parte q ele manda pegar com cuidado e colocar o bicho no plástico fechado e depois no lixo afffs..... parei de assistir!!! Achei desnecessário descartar o bichinho no lixo, poderia soltar longe de casa gentilmente sem machucar....todos tem seu papel nesta terra, nada foi criado sem razão!!! Eu nao mato nada, apenas coloco pra fora....e agora depois desse vídeo ( até a parte q vi ) ctz serei mais atenta as traças!"},
+{"id": "c0146", "texto": "valeu pela indicaçao de linha!!!"},
+{"id": "c0147", "texto": "48hrs? mas o vídeo só tem 17mins e 38segs 😢😢"},
+{"id": "c0148", "texto": "Serie favorito youtuber"},
+{"id": "c0149", "texto": "Ai chega nos jogos oficial pipoca"},
+{"id": "c0150", "texto": "Dá um pedacinho ()e meio()"}
+]

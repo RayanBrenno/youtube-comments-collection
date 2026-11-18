@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0701", "texto": "Arroz solto é outra coisa, mas o gosto de lavar ou não, isso isso é de cada um, cada um faz do,jeito que quiser, e nada de dar peti que é isso ou aquilo, não precisadar sua opinião se vc a acha isso ou aquilo, simplesmente diga que laca ou não, não é nessesario explicar querendo desmerecer o jeito ou costume da,outra pessoa (criatura 🙄) uma mania feia que,certas pessoas tem o prazer de querer que o dela é o cerro ou melhor, eu fico puto com isso 🤔😡 eu não lavo o meu arroz , e ponto final, não preciso dizer mais,nada , é simples assim ,criaturas 🤔"},
+{"id": "c0702", "texto": "É tão fácil acabar com os traficantes, facílimo na verdade , basta apenas parar o consumo de drogas.... enquanto tiver consumidor os traficantes vão dar um jeito..."},
+{"id": "c0703", "texto": "Agora eu entendi, agora tudo faz sentido"},
+{"id": "c0704", "texto": "Jorge Iggor merece comentaristas bem melhores ao seu lado."},
+{"id": "c0705", "texto": "Tem demais em Portugal"},
+{"id": "c0706", "texto": "Parabéns pelo vídeo 👏👏👏👏👏"},
+{"id": "c0707", "texto": "Pedro, faça um video sobre o anime ORB, da netflix, é sobre o Heliocentrismo. Acho que você vai curtir! Manda um alô!!"},
+{"id": "c0708", "texto": "Muito bom, parabéns"},
+{"id": "c0709", "texto": "maxim virou maxifim"},
+{"id": "c0710", "texto": "kkkkkkkkkkkk eu amei essa história! O jeito de contar a história faz toda diferença"},
+{"id": "c0711", "texto": "LULAAAAAAAAAAAAAAAA vai vencer de novo 2026 é nosso. Vai lá vender seus cursos pra troxa! Salario minimo aumentou, qualidade de vida. Vão mamar no bolsonaro, ta só o pó!"},
+{"id": "c0712", "texto": "Top demais esse vídeo , mostrando os bastidores do jogo .Sucesso"},
+{"id": "c0713", "texto": "Ainda bem que ele deixou claro o lado dele com os 13 minutos... igualzinho as sentenças de 17 e 22 anos, parece que também quer entrar 2026 de havaianas..."},
+{"id": "c0714", "texto": "A narração do vídeo coloca o bicho como um ser maligno e intocável.😒Quando na verdade o ser humano é o bicho mais deplorável neste planeta.😒😒😒👍"},
+{"id": "c0715", "texto": "Espiritualidade!? Misericórdia! Uma criatura que tatuou o ânus e mostrou para o mundo; que faz músicas consagradas aos espíritos malignos,acha que a sua casa está limpa? Limpa de quê? Onde essa mulher estiver uma legião de espíritos trevosos estão com ela. INFELIZMENTE...😔"},
+{"id": "c0716", "texto": "Ola Guima você poderia jogar omori e continuar com Doki Doki ?"},
+{"id": "c0717", "texto": "\"Morra como herói ou viva tempo o bastante para se tornar vilão\" -Escariotes, Judas 😆"},
+{"id": "c0718", "texto": "A ONU só defende o que lhes convém. Tipo a OAB aqui."},
+{"id": "c0719", "texto": "Mostra a garagem brincalhão!"},
+{"id": "c0720", "texto": "Tenho quase certeza que os supostos pacientes \"curados\" pela cirurgia, não foram curados de verdade, e sim pela ideia de passar pela cirurgia para ter uma melhora, quase como um efeito placebo, onde a pessoa acha que está bem só porque passou por aquilo, e acaba ignorando os efeitos colaterais, porque mano não tem como, é um procedimento muito sinistro, arriscado, e questionavel para as pessoas sequer acreditarem que ele funciona!"},
+{"id": "c0721", "texto": "Estou orando agora por cada um que estão aqui com dor . Já passei por isso , sofri muito . Muito alongamento , pilates , fisioterapias . Pilates foi o que mais me ajudou . O segrego é fazer alongamentos , fortalecer a coluna sempre , mesmo sem sentir dor !"},
+{"id": "c0722", "texto": "Só música boa ❤"},
+{"id": "c0723", "texto": "Se tem sardinha ,acabou a receita pra mim😢"},
+{"id": "c0724", "texto": "Que pegada batera......"},
+{"id": "c0725", "texto": "Num aguento essa cabeleireira toda desse povo solto,master chefe profissional são todos arrumados e presos, né possível que não cai um fio de cabelo nessas comida gente"},
+{"id": "c0726", "texto": "GPT puro… 🤢 “nao è sobre isso, é sobre isso.”"},
+{"id": "c0727", "texto": "Não consegui segurar o 😢 Mds como alguém pode fazer um mal tão grande assim 😢💔💔"},
+{"id": "c0728", "texto": "Tem sentimento que não aceita distância."},
+{"id": "c0729", "texto": "Menos que 10 eu nem comemorava, agora empate [e papo de terceira guerra mundial"},
+{"id": "c0730", "texto": "Passa quantos dias pra poder estragar?"},
+{"id": "c0731", "texto": "Amei sua explicação."},
+{"id": "c0732", "texto": "KK caramba alguém da um aumento de salário para o marketeiro que pensou em divulgar, de forma didática as funcionalidades de cada aaparelho eletrônico da marca em forma de puro entretenimento com uma mini série em modo de Dorama. Amei❤"},
+{"id": "c0733", "texto": "Eu Aqui estou tentando instalar uma porta e uma janela...."},
+{"id": "c0734", "texto": "Muito BOM ... deu até água na boca ... só fique curioso com duas questões. Tem uns pacotes de farinha que vem escrito PIZZA no mesmo ... elas são melhores para este tipo de massa ou é a mesma coisa de farinhas \"comum\" ? Segundo: Fiquei interessado neste FORNO 🤩🤩, mas acho que o investimento apenas para assar pizza é um tanto quanto alto, por mais que eu goste de pizza. Apesar de ser mencionado pelo fabricante, que podemos fazer outras receitas nele. Verifique com a empresa se você poderia experimentar ele em outras receitas e mostrar aqui o resultado: Como por exemplo pão sirio, que é assado quase que igual, pão de queijo, que deve ficar show e biscoito de povilho que adoro. Já que para pizza ele está mais que aprovado ...😁👍 2 minutos ? Posso preparar a pizza, congelar e quando quiser servir, tá pronto. Saindo uma pizza QUENTINHA ...😂😂😂"},
+{"id": "c0735", "texto": "Concordo colocar o molho na hora de servir."},
+{"id": "c0736", "texto": "Trabalhar em horários de baixa atividade da maioria das pessoas. Bem cedo ou a noite. Fica mais fácil de desconectar"},
+{"id": "c0737", "texto": "O melhor do. Mundo"},
+{"id": "c0738", "texto": "Esse tal Igor Thiago erra um gol de cabeça porque se apresentou mal e saiu com um sorrisinho como se fosse acostumado a fazer gol pela seleção! Socorrooooo!"},
+{"id": "c0739", "texto": "Ele sabe atuar deu até dó Maria de Fátima e mal viu 😢"},
+{"id": "c0740", "texto": "😊e lindo já queto mais"},
+{"id": "c0741", "texto": "- Não tenho palavras pra descrever essa música.. 🤎🤎🤎🤎 @simoneminhavida2023 5"},
+{"id": "c0742", "texto": "Já virou hino aqui em casa 🏠🎶"},
+{"id": "c0743", "texto": "Obrigado pelas receitas maravilhosa, gosto muito das suas receitas"},
+{"id": "c0744", "texto": "Posso sovar a massa na batedeira?"},
+{"id": "c0745", "texto": "Meu Deus o prato desse japa deve ser a melhor experiência da vida ❤"},
+{"id": "c0746", "texto": "Onde eu moro é muito frio, a massa vai crescer assim mesmo?"},
+{"id": "c0747", "texto": "Estou viciada nessa música! ❤❤❤❤"},
+{"id": "c0748", "texto": "É puxado o Treino"},
+{"id": "c0749", "texto": "Muito ansiosa pros próximos episódios🎉🎉🎉"},
+{"id": "c0750", "texto": "9:33 fosse o Pedro do flamengo tinha feito esse gol"}
+]

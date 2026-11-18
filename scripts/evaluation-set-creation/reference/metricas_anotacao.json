@@ -1,0 +1,21 @@
+{
+  "kappa_entre_anotadores_humanos_pre_adjudicacao": 0.501,
+  "amostra_cega_pendente_adjudicacao": 0,
+  "comentarios": 1000,
+  "unanimes_3_llms": 836,
+  "unanimes_pct": 83.6,
+  "divergentes_fora_amostra_cega": 130,
+  "kappa_cohen_vs_amostra_cega": {
+    "gpt": 0.744,
+    "deepseek": 0.735,
+    "gemini": 0.748,
+    "maioria_3_llms": 0.764
+  },
+  "amostra_cega_sem_maioria": 2,
+  "distribuicao_rotulo_final": {
+    "negativo": 244,
+    "positivo": 450,
+    "neutro": 306
+  },
+  "rotulos_finais_pendentes": 0
+}

@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0951", "texto": "Fdp estava assistindo cagando vocês começaram a falar eu ri e não consegui cagar mas pqp"},
+{"id": "c0952", "texto": "Não erram nunca! ❤❤❤❤❤❤"},
+{"id": "c0953", "texto": "O fim dos mistérios sobre a nossa existência está no Livro UNIVERSO EM DESENCANTO, Leia e comprove. Não é religião"},
+{"id": "c0954", "texto": "Bom dia 🌞 que eu vou ir lá na rua do lado do meu braço tá bom amor e você não vai querer jantar arroz hoje a tarde mas eu r 8:10 8:12 8:14 8:14 8:14 8:14 8:15 8:15 a"},
+{"id": "c0955", "texto": "Eu tava toda hora Vendo seu perfil pra ver se você já tinham postado agora que foi ver 😊"},
+{"id": "c0956", "texto": "Não consigo sovar, já tentei várias vezes. Tou começando a achar se por eu morar em Recife que é mais quente, se faz alguma diferença com a fermentação, sei lá, pq né possível. A galera faz de um jeito que parece ser bem de boa"},
+{"id": "c0957", "texto": "Tão lindo ver esses momentos ❤️"},
+{"id": "c0958", "texto": "QUE BOM, MAIS UM NO INFERNO."},
+{"id": "c0959", "texto": "Eu tava lá"},
+{"id": "c0960", "texto": "Nada que acrescente"},
+{"id": "c0961", "texto": "Toda vez que a câmera foca neles e eles estão passando a mão no cabelo....eu fico impressionada que ninguém achou um cabelo ainda kkk"},
+{"id": "c0962", "texto": "Chou muito bom gostei ❤😅"},
+{"id": "c0963", "texto": "PLAY CALVA JOGA MOUTHWASHING VC AINDA NÃO JOGOU ESTOU PEDINDO FAZ TEMPO MAS SE VC NÃO JOGAR VC VAI FICAR CALVA PRA SEMPRE POR FAVOR PLAY GUILMA NUNCA TE PEDI NADA 😕."},
+{"id": "c0964", "texto": "Todo laço contra a minha vida é quebrado Todo laço contra a minha vida sentimental é quebrado Todo o laço contra os meus filhos é quebrado"},
+{"id": "c0965", "texto": "Astral bom desse rapaz...maneiro"},
+{"id": "c0966", "texto": "Quanta baboseira em todas eras"},
+{"id": "c0967", "texto": "Se algo realmente estruturado não for feito contra essas facções, é daí pra pior."},
+{"id": "c0968", "texto": "Talvez não gruda em razão da quantidade de óleo!!! E ainda tem gente que não sabe cozinha um arroz. Cada um faz do seu jeito! Água Arroz salgadinho igual a Bacon....quanta besteira!!!"},
+{"id": "c0969", "texto": "Chama o Cadu pra falar de chili oil, muito bom"},
+{"id": "c0970", "texto": "Neymar tivesse tinha sido ao contrário"},
+{"id": "c0971", "texto": ". Voz que toca o coração!"},
+{"id": "c0972", "texto": "Obrigada por essa maravilha de receita ❤posso usar medida 240ml não vai ficar diferente 😂?"},
+{"id": "c0973", "texto": "Será que teve uma análise dessa quando era o governo do Bolsonaro 🤔😅"},
+{"id": "c0974", "texto": "Marrocos deu um show, esse timinho do Brasil não passa nem da primeira fase."},
+{"id": "c0975", "texto": "eu assistindo o vídeo e fazendo a unha"},
+{"id": "c0976", "texto": "o Homem e midia ,vamp fica louco kkkk"},
+{"id": "c0977", "texto": "Esse cara pra mim já é um dos melhores da história do UFC, o que ele fez em pouco tempo de organização é algo de outro mundo, agora ele vai bater no Ankalaev e defender seu cinturão. CHAMA 🔥"},
+{"id": "c0978", "texto": "Eu prefiro o Hulk 1 sabe porque não look 4 sabe porque é porque ele é lindo look 4 ele é muito lindo e estiloso"},
+{"id": "c0979", "texto": "😂😂😂😂 pior governo dá história"},
+{"id": "c0980", "texto": "FALA PARA A BELA DISTUIR"},
+{"id": "c0981", "texto": "Até quem não tá sofrendo sofre"},
+{"id": "c0982", "texto": "Eu realmente amo esse canal! Obrigada por sempre transmitir conhecimento da maneira correta ❤"},
+{"id": "c0983", "texto": "É o GOAT N TEM COMO"},
+{"id": "c0984", "texto": "Look 2 eu sou seu fã"},
+{"id": "c0985", "texto": "Um video toda semana nao é algo que um youtuber de creative squad seja capaz de fazer tonigon, pare de sonhar"},
+{"id": "c0986", "texto": "Tem o leite em Nido E Loia"},
+{"id": "c0987", "texto": "Adorei a dica 😂obrigada ❤"},
+{"id": "c0988", "texto": "Que maravilhas de saladas! Gostei de todas!👏👏👏👏👏👏"},
+{"id": "c0989", "texto": "Para de fala muito antes"},
+{"id": "c0990", "texto": "Ouvi dizer também umaaluquice onde a crucificação NUNCA aconteceu .... Então eu cheguei a conclusão, qye está versão da bíblia, a Bíblia Da Etiópia Ortoxa em coopta"},
+{"id": "c0991", "texto": "15 de outubro em jaragua do sul sc So estou com medo de tirar da forma e desvirar no prato 😢"},
+{"id": "c0992", "texto": "o que ele falou em ingles"},
+{"id": "c0993", "texto": "Ja pensou se todas as outras versões dos outros apostolos na verdade surgiram de ciúmes por Judas ter sido o apostolo mais intimo de cristo? Kkkkk"},
+{"id": "c0994", "texto": "Ensinar a fazer sopa de ervilha e caldo verde por favor. Não achei aqui no seu canal"},
+{"id": "c0995", "texto": "Que câmera teu Filmmaker usa? mto boas as imagens!"},
+{"id": "c0996", "texto": "Muito boas kkkkkkkkkk"},
+{"id": "c0997", "texto": "oi eu sou maxim eu vim pro brasil pq n tava dando nao os cara la na ucrania era muito , vim pra ca que eh mais resenha , avisa pra minha mae que eu mudei de chip tlg"},
+{"id": "c0998", "texto": "Vc esqueceu de determinar a rua a"},
+{"id": "c0999", "texto": "6:22 o sarro lacrando e o julio e o albani rachando kkkkkk"},
+{"id": "c1000", "texto": "Voluntários não. Voluntário trabalha de graça, o nome certo de quem vai a uma guerra por dinheiro é mercenário."}
+]

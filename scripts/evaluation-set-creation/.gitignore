@@ -1,0 +1,16 @@
+# Arquivos gerados pelos scripts dentro da pasta crua.
+# Só as entradas (dados da API, prompt e anotações) ficam versionadas;
+# a versão gerada de referência fica em reference/.
+dataset_validacao/videos_selecionados.csv
+dataset_validacao/candidatos_avaliados.csv
+dataset_validacao/coleta_metadados.json
+dataset_validacao/dataset_validacao.csv
+dataset_validacao/reserva.csv
+dataset_validacao/exportacao_metadados.json
+dataset_validacao/amostra_cega.csv
+dataset_validacao/llm/ids.csv
+dataset_validacao/llm/lotes/
+dataset_validacao/llm/refazer_*.txt
+dataset_validacao/divergencias.csv
+dataset_validacao/dataset_rotulado.csv
+dataset_validacao/metricas_anotacao.json

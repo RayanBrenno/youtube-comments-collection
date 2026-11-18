@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0651", "texto": "Você tem a voz e o jeito de falar do Rafael Scapella🤔🤔🤔"},
+{"id": "c0652", "texto": "Vai cantar assim ,no meu aniversário 🎉"},
+{"id": "c0653", "texto": "Lkkkkk é bom ver o preparo da polícia kkkk chega ser piada"},
+{"id": "c0654", "texto": "Eu queria muito saber o que o Angelo ganhou de presente. Essa informação fez muita falta."},
+{"id": "c0655", "texto": "Ainda bem que para a engenharia e geoeconômia é um pesadelo. A natureza é incrível!"},
+{"id": "c0656", "texto": "O Carlos Almeida"},
+{"id": "c0657", "texto": "Que música é essa depois do gol do Brasil muito feio"},
+{"id": "c0658", "texto": "PARABÉNS!!!EXCELENTE VIDÉO ADOREI!!!🙂🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏🙏"},
+{"id": "c0659", "texto": "Impostos impostos 😂 precisa sair desce pais meu Deus 🙏🏿 alguém me ajuda"},
+{"id": "c0660", "texto": "nao perde a concentrAÇÃOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"},
+{"id": "c0661", "texto": "Eu não seivou 😂 😂😂😂😂😂😂 hi hi hi"},
+{"id": "c0662", "texto": "Vcs sempre serão o orgulhos do Fcs"},
+{"id": "c0663", "texto": "Eu quero mais videos de colorindo bobb goods"},
+{"id": "c0664", "texto": "Que receita maravilhosa!! Parabéns e obrigada!"},
+{"id": "c0665", "texto": "graças a Deus tem alguém que não lava o arroz, pois tira nutrientes dele. parabéns pelo vídeo."},
+{"id": "c0666", "texto": "Acabei com essa praga aplicando um inseticida especial. Eu não lembro qual é seu nome, mas não é o famoso Jimo, que aqui não surtiu nenhum efeito."},
+{"id": "c0667", "texto": "A luta agora é entre eu e eu..."},
+{"id": "c0668", "texto": "Quemp aga essa porra toda de cabelo e os caralho continua sendo ele, porra ! Deixa ele pelo menos se enganar se ela quiser pagar a conta com o cartão de crédito,.porra ! 😅"},
+{"id": "c0669", "texto": "Essa hora seu tonigon"},
+{"id": "c0670", "texto": "Taynan abre a boca e eu quero vomitar."},
+{"id": "c0671", "texto": "Batalha. De lapis"},
+{"id": "c0672", "texto": "Só tava esperando tonigon"},
+{"id": "c0673", "texto": "Junior cigano saiu do UFC pra fábricar submarino pro crime"},
+{"id": "c0674", "texto": "Boa noite! Eu tenho uma pizzaria tem 6 anos, e venho tentando me adaptar as massas, tenho forno industrial e asso nas assadeiras, mas minhas pizzas encolhem, trabalho com pré assadas por conta de trabalhar sozinha e tenho aqui a identidade de massa fina, como posso fazer essa resistência da massa?"},
+{"id": "c0675", "texto": "EU SOU SEU MAIOR FÃ"},
+{"id": "c0676", "texto": "a maquina que vc criou para cortar as coisas ,vc devia colocar as duas rodas mais proximas."},
+{"id": "c0677", "texto": "Tem amor que vira raiz."},
+{"id": "c0678", "texto": "Guima joga fnaf security breach por favor"},
+{"id": "c0679", "texto": "Que análise asquerosa... Seu vendido dos infernos"},
+{"id": "c0680", "texto": "A NASA quer voltar para Uranus!"},
+{"id": "c0681", "texto": "Muito bom vídeo"},
+{"id": "c0682", "texto": "Que vídeo top! Parabéns, precisamos de mais conteúdos assim"},
+{"id": "c0683", "texto": "Queria ser o editor só para ver os vídeos sem os cortes."},
+{"id": "c0684", "texto": "Não se faz jogador como antes. Pra mim é só um bando de bundão , dando passe errado e perdendo oportunidades de fazer gol. SIMPLESMENTE FRUSTRANTE, O ROMER SIMPSON NÃO VAI ENTENDER. Quando conquistamos o exa existia jogador hoje só um bando de lerdo ."},
+{"id": "c0685", "texto": "Ohio US., e assim ….inverno duro….professor são 3 litros por hora 4,25 dólares por hora., 6 horas de sono que é o que precisamos., são 30 dólares., qualquer hotel por mais barato que seja são., 70 dólares com impostos…HOTÉIS SIMPLES AO MÁXIMO., então não usamos o motor por 6 horas usamos por 3 que seriam 15 dólares., CABINE MANTÉM TEMPERATURA., vc está correto e uma ciência usamos o cérebro e não dormimos em cabines por 8 horas são descansos de 6 horas …..o vídeo é bom porém além de tudo que vc mostra tem muita matemática……O gerador é Fantastic porém nem todos caminhões são equipados…..roupa ajuda muito porém o ar gelado queima nossos pulmões então a cabine deve estar bem vedada e existem aquecedores USB com baterias auxiliares elétricas para aquecer o ar….parabens pelo vídeo. ….Venha para os US em dezembro te mostro como funciona…em Ohio por exemplo NORTH FACE e para crianças dentro e fora de casa só usamos Canadá Goose."},
+{"id": "c0686", "texto": "BAHH ISSO É HORA PRA PISTAR VÍDEO TCHÊ"},
+{"id": "c0687", "texto": "Discordo completamente do número 3, se não for pra sair beirando a perfeição eu prefiro não fazer pois a frustração depois de pronto vai ser enorme. E acho que multitarefa é treino de prioridade."},
+{"id": "c0688", "texto": "Interessante que no evangelismo de Judas e no de Maria, em ambos as partes perdidas prometiam revelações bombásticas. Isso parece é queima parcial de arquivo"},
+{"id": "c0689", "texto": "Endrick tinha que começar jogando poxa... Seria o jogo perfeito pra ele, mas..."},
+{"id": "c0690", "texto": "O brasileiro não foi ensinado a votar pela cabeça; e sim pela barriga."},
+{"id": "c0691", "texto": "muito obrigado Julia e Deus te abençoe"},
+{"id": "c0692", "texto": "Parabéns pelo vídeo! Esclarecedor e muito didático! Continue"},
+{"id": "c0693", "texto": "O beta quer ir pra guerra pensando que vai ganhar dinheiro pra conseguir muie depois KKKKK"},
+{"id": "c0694", "texto": "O cara pensa que poatan recuar quando leva um golpe,pensa que ele perdeu,ele esperando o cara chegar perto pra manda um cruzando lllkkkk"},
+{"id": "c0695", "texto": "Gosto de fazer essa receita ao invés do liquidificador, misturar. Fica parecendo massa de bolo. Eu amo!!!"},
+{"id": "c0696", "texto": "Garrafinha vazia! Não jogou nada."},
+{"id": "c0697", "texto": "O leite em pó . Hj em dia não é mais puro é cheio de mistura . Não tem nem gosto de leite"},
+{"id": "c0698", "texto": "Poatan me lembra o grêmio de 2017 batia em todos adversários 😂"},
+{"id": "c0699", "texto": "A melhor dupla sertaneja do Brasil 🇧🇷🗣️ Abraços Brasil Goiânia 🗣️👤🥃🇧🇷"},
+{"id": "c0700", "texto": "Ver música de um salário de um mês não dura 3 dias"}
+]

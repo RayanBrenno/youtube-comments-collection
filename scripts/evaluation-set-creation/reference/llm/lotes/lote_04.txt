@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0151", "texto": "Meu Deus e cada uma melhor que a outra"},
+{"id": "c0152", "texto": "0:56 Parar de fazer muitas tarefas ao mesmo tempo; 3:46 Parar de checar notificações; 6:24 Parar de tentar ser perfeita(o); 8:37 Parar de ruminar os erros do passado; 10:49 Parar de dormir por menos de 7h; 13:18 Parar de consumir informação sem filtro; 15:10 Parar de tentar agradar todo mundo. (Vale muito a pena ouvir as explicações do vídeo.)"},
+{"id": "c0153", "texto": "Descreveu minha situação atual. Quando fico muito tempo sentado, ao meu levantar tenho uma dor terrível na parte posterior da perna que vai até a canela. Depois de uns minutos passa e ando normalmente. Aí recomeça novamente. 😢"},
+{"id": "c0154", "texto": "Cadê o Dr.Dilera"},
+{"id": "c0155", "texto": "Não entendi. O casco é modular ? Quando são descobertos, eles alagam o casco desacoplado, fazendo afundar ? Onde fica segura a tripulação após o afundamento ? São suicidas?"},
+{"id": "c0156", "texto": "Felipe M quis fazer um prato que nao sabe, pqp incompetente"},
+{"id": "c0157", "texto": "Eu amo muito com café e uso muito nas minhas receitas de comida"},
+{"id": "c0158", "texto": "A casa é linda, maravilhosa mas é totalmente sem vida parece que ta vendendo a casa"},
+{"id": "c0159", "texto": "Isso ficou mt bom kskksks a atuação mt boa tbm"},
+{"id": "c0160", "texto": "Esses zagueiros de Portugal são HORRIVEIS, pelo amor de Deus"},
+{"id": "c0161", "texto": "Sera que foi evolução por mera casualidade ?? Ou teve uma mente que arquitetou ?"},
+{"id": "c0162", "texto": "Atos cria uma pista de corridas que tem carros versus pobre vs noobs em um campo de futebol versus pro versus noobs"},
+{"id": "c0163", "texto": "Cerol e balão são duas pragas. O povo acha que não tem perigo"},
+{"id": "c0164", "texto": "ATHOS SEU BANCO FICOU MUITO BONITO PARA BENS😊"},
+{"id": "c0165", "texto": "Athos eu sou teu fã me dar manicreft por farvo"},
+{"id": "c0166", "texto": "Isso é Henrique e Juliano os melhores de todos os tempos❤"},
+{"id": "c0167", "texto": "Esse narrador é absurdo"},
+{"id": "c0168", "texto": "comentando apenas para pedir para o cadu voltar para ensinar chilli oil!!! EU PRECISOOO!!!"},
+{"id": "c0169", "texto": "O 3 pratos parecem deliciosos, vindo de um fã incondicional do miojo, EU."},
+{"id": "c0170", "texto": "Mas o que o Ângelo ganhou?"},
+{"id": "c0171", "texto": "Você faria Hector?"},
+{"id": "c0172", "texto": "Vou tomar Ayahuasca e volto com alguma resposta sobre isso. 😅"},
+{"id": "c0173", "texto": "A cerveja já abriu sozinha, só com o toque da música"},
+{"id": "c0174", "texto": "Xandão e sua turma vai mandar prender todos os policiais ."},
+{"id": "c0175", "texto": "O noticiário informou há mais de 1 mês, que o submarino que saiu do Panamá com carga destinada à Holanda estava a ser guiado por satélite, com 5 toneladas de droga."},
+{"id": "c0176", "texto": "Muito bom kkkk ❤"},
+{"id": "c0177", "texto": "Caraca, 5k eu compro uma pizzaria kkkk"},
+{"id": "c0178", "texto": "Glória pires da de 10 a zero nessa atriz muito artificial n sei se e papel dela horrível interpretação dela"},
+{"id": "c0179", "texto": "Não conheço? Onde vende aqui? Quero experimentar...😎🚩🇷🇺"},
+{"id": "c0180", "texto": "Sou fã mas sem dilera perdeu muito😢"},
+{"id": "c0181", "texto": "❤Da sua cama @simoneminhavida2023"},
+{"id": "c0182", "texto": "Faltou testar as antenas para prevenir linhas de pipa, se elas realmente são eficientes. Vale o teste"},
+{"id": "c0183", "texto": "Esse episódio vale ouro."},
+{"id": "c0184", "texto": "A Simone Mendes A família Mendes parabéns Simone Mendes"},
+{"id": "c0185", "texto": "Uma chef que usa tempero pronto é complicado!!!"},
+{"id": "c0186", "texto": "Show de bola amigo, obrigado pela explicação sucinta e direta. Vivo a 43 anos por aqui e como tudo na amazônia nada vai pra frente. Poderia fazer um vídeos sobre os projetos econômicos na amazônia que não foram pra frente."},
+{"id": "c0187", "texto": "Muito bom.Pai.💜🥂Raquel . Não,merece,ser,tão humilde.🎉 4:2"},
+{"id": "c0188", "texto": "E que continue assim! A natureza agradece."},
+{"id": "c0189", "texto": "Vou fazer 0b❤"},
+{"id": "c0190", "texto": "Combina com qualquer momento"},
+{"id": "c0191", "texto": "A bru faz coisas que o senhor dúvida quando não tem celulares😊"},
+{"id": "c0192", "texto": "Eu fiz igual tu, fiz tudo um dia antes de entregar tbm kakakaakakakakakak"},
+{"id": "c0193", "texto": "Faço bolos caseiros para vender, gente do céuuuuuuu esse bolo com um cafezinho, é um nojo de bom 🤭🤣🤣😍 Minhas clientes amam, sai muito por aqui. Quem não fez, só façam.... Quase todos meus bolos que vendo é do receitas de pai... 🫠😍"},
+{"id": "c0194", "texto": "Cadres sou eu denovo te amo 💚💚💚💚💚💚💚💚💚💚💚💚💚💙💙💙💙"},
+{"id": "c0195", "texto": "Vocês são demais 🎉"},
+{"id": "c0196", "texto": "Tô gostando muito dessa saladas de legumes 😊"},
+{"id": "c0197", "texto": "Play play play play , guima guima guima guima!!<3,joga verity[Horror] plisss e um jogo do Roblox bem calminho 😁"},
+{"id": "c0198", "texto": "Essa vai estourar demais, pode anotar! 🚀"},
+{"id": "c0199", "texto": "EU GOSTEI MUITO DO LOOK 4 COMBINA MUITO COM ESTILHO DELA 😊❤"},
+{"id": "c0200", "texto": "Não sei se dou Like ou Deslike no seu vídeo. Porque você cita índices de IBGE e afins que foram manipulados para darem números aparentemente favoráveis... O DESEMPREGO NÃO CAIU, SE COLOCAR OS BOLSA FAMÍLIA NO DEVIDO LUGAR! O PIB NÃO AUMENTOU, SE CONSIDERAR O VERDADEIRO INDICADOR QUE É ENTRADA DE DINHEIRO (E NÃO SAÍDA)! E por aí vai... Esse governo só mente, compra as agências de estatísticas, pagam as grandes mídias para publicarem notícias alinhadas e não verdadeiras!"}
+]

@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0301", "texto": "Quem assistiu um contra todos. uma série maravilhosa com Júlio. Na net flix..."},
+{"id": "c0302", "texto": "Confiar nas urnas sem voto impresso ?!"},
+{"id": "c0303", "texto": "Se tirar impostos do vídeo, fica com 1min de vídeo kkk"},
+{"id": "c0304", "texto": "Não Não pode 14:55"},
+{"id": "c0305", "texto": "Tonigon quero te falar uma coisa, simone bozan dos santos é minha mãe, Mais quem se inscreveu-se no teu canal foi uma menina de 11 anos !!! Mais assim muito bom seus vídeos gosto muito de minecraft😊😊"},
+{"id": "c0306", "texto": "Se você não se arrepiou, escuta de novo."},
+{"id": "c0307", "texto": "os 2 gols do Rayo é um absurdo de nível técnico e frieza, ele lança a bola perfeitamente onde o goleiro nn alcança , poucos jogadores tem essa frieza e controle dentro de jogo espero ver mais dele."},
+{"id": "c0308", "texto": "Você descobre que ela se esqueceu de pintar um buraquinho"},
+{"id": "c0309", "texto": "E aí Júlio comprar calça nova né 😂"},
+{"id": "c0310", "texto": "Me manda receita"},
+{"id": "c0311", "texto": "O goleiro pode ser seu1 amigo ❤"},
+{"id": "c0312", "texto": "7:20 Metano é o gás do peido, amônia tem bastante na nossa urina. Então urano é tipo um esgoto gigante. 😮"},
+{"id": "c0313", "texto": "Mas oq ele ganhou?"},
+{"id": "c0314", "texto": "Diaguitas de su familia de"},
+{"id": "c0315", "texto": "Que energia boa tem essa mulher linda. Deusva ilumine sempre. Obrigada pelo vídeo."},
+{"id": "c0316", "texto": "Bom dia comecou ha 20 anos , era atleta capoeira e volei forcei muito mais agora ta constante toma remédio 5 dias passa ,depois volta dor nas regiões dos rins agora indo pra virilha"},
+{"id": "c0317", "texto": "Guima joga torre de botão de soco tem uma passagem secreta é no roblox"},
+{"id": "c0318", "texto": "Me deu água na boca humm"},
+{"id": "c0319", "texto": "Play gima goga livetopia parti tranquilo confia Play gima goga school Boy manauê de volta 1) toca campainha 18 vez"},
+{"id": "c0320", "texto": "Nossa ficou linda!! Muita personalidade!"},
+{"id": "c0321", "texto": "Sinto dor a mais de 15 anos"},
+{"id": "c0322", "texto": "Obrigada pela excelente aula🎉🎉🎉Parabéns 🎉🎉"},
+{"id": "c0323", "texto": "Boa tarde obrigada por essas receitas de saladas e molhos maravilhosas!"},
+{"id": "c0324", "texto": "Que legal seu vídeo 👏📷 🎉❤"},
+{"id": "c0325", "texto": "Show d bola ahahahaha"},
+{"id": "c0326", "texto": "Lock 2 com certeza"},
+{"id": "c0327", "texto": "VOTE NULO NÃO AJUDE SUSTENTAR PARASITAS 😢😢😢😢."},
+{"id": "c0328", "texto": "E o q tu ganhou? Angelo?"},
+{"id": "c0329", "texto": "Não considerar isso como terrorismo e sacanagem"},
+{"id": "c0330", "texto": "É uma referência a Bojack Horseman?"},
+{"id": "c0331", "texto": "Kit de canetinha mas eu desenho né para fingir que desenha um Bob cookies"},
+{"id": "c0332", "texto": "Você sabe tocar My Singing Monsters?"},
+{"id": "c0333", "texto": "Vivo em Indaiatuba e nos últimos 30 dias tivemos 2 mortes por cerol,muito triste, prefeitura teve que tomar medidas administrativas, infelizmente uma atividade tão culturalmente forte no Brasil está sofrendo por causa de uma minoria irresponsável e sem respeito com a vida alheia, e o pior é que nas maiorias dos casos são adultos que utilizam o cerol"},
+{"id": "c0334", "texto": "Beatriz é o meu nome de conheci😮"},
+{"id": "c0335", "texto": "No fundo no fundo...eles querem mesmo é uma elfa ucraniana! Mas...🙄"},
+{"id": "c0336", "texto": "Música que marca💜"},
+{"id": "c0337", "texto": "Essa versão é parecida com o que encontramos no filme \"A Última Tentação de Cristo\" de Martin Scorsese."},
+{"id": "c0338", "texto": "Caraca, ele me lembra o Jay do ENHYPEN"},
+{"id": "c0339", "texto": "CHEGUEI SÓ COM 26 MINUTOS DE ATRASO"},
+{"id": "c0340", "texto": "Pra que colocar o narrador na imagem, péssima ideia. Rouba visão do campo"},
+{"id": "c0341", "texto": "Nossa vc falou tudo o leite ninho era muiiiiito gostoso mesmo agora ele perdeu o sabor"},
+{"id": "c0342", "texto": "Muito bom esse conteúdo! Obrigado por compartilhar!"},
+{"id": "c0343", "texto": "Suvaco que é uma caranguejeira e cabelo comprido meu deus, porque usa avental?"},
+{"id": "c0344", "texto": "EU SOU SEU YOUTUBER FAVORITO DE MINECRAFT"},
+{"id": "c0345", "texto": "Adriano @amopaocaseiro Faça um vídeo ensinando a massa com aquele lanche feito com massa dobrada ao meio, parece massa de pizza e depois é recheada com alface, cenoura, frango desfiado etc."},
+{"id": "c0346", "texto": "Estou en casas das empresas ligo torradeira ou ferro de passar oupa.sem energia uzo pouco alcool num copo de barrao ou lata num lugar seguro.so para quebrar o jelo.jA nao guento frio."},
+{"id": "c0347", "texto": "Só um detalhe o meu arroz faço com água filtrada até colocar água fria mais eu não faço com água da torneira e sim filtrada"},
+{"id": "c0348", "texto": "Não é IA mas no meio do vídeo rolou um “isso muda tudo…” suspeito…"},
+{"id": "c0349", "texto": "Muito top seu canal 👏🏻👏🏻👏🏻👏🏻 não tinha ainda um canal assim"},
+{"id": "c0350", "texto": "Essa Dupla é incrivelmente imbatível! Amo!❤👏👏👏👏👏👏🙌"}
+]

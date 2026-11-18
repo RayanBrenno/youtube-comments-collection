@@ -1,0 +1,336 @@
+{
+  "semente": 42,
+  "sorteio": "random.Random(f'{semente}-{video_id}').shuffle sobre os aprovados ordenados por comment_id",
+  "comentarios_por_video": 20,
+  "reserva_por_video": 6,
+  "filtros": {
+    "ordem": [
+      "contém link",
+      "menos de 3 palavras",
+      "mais de 1000 caracteres",
+      "texto duplicado",
+      "idioma não português"
+    ],
+    "min_palavras": 3,
+    "max_caracteres": 1000,
+    "duplicados": "texto idêntico (sem diferenciar maiúsculas); mantém o mais antigo",
+    "idioma": "lingua-language-detector (pt/es/en); exclui confiança pt < 0.05",
+    "revisao_manual": "comentários com confiança pt < 0,5 revisados; excluídos os escritos em outro idioma ou sem sentido (exclusoes_revisao.csv)"
+  },
+  "totais": {
+    "brutos": 115167,
+    "excluidos_por_filtro": {
+      "contém link": 135,
+      "menos de 3 palavras": 21067,
+      "mais de 1000 caracteres": 294,
+      "texto duplicado": 3567,
+      "idioma não português": 1572
+    },
+    "aprovados_filtros": 88532,
+    "excluidos_revisao_manual": 25,
+    "dataset": 1000,
+    "reserva": 300
+  },
+  "por_video": {
+    "d2KlGCxrqF4": {
+      "tema": "Notícias e Política",
+      "brutos": 2587,
+      "aprovados_filtros": 2392,
+      "sorteados": 26
+    },
+    "hhTIhYK-dJI": {
+      "tema": "Notícias e Política",
+      "brutos": 1523,
+      "aprovados_filtros": 1386,
+      "sorteados": 26
+    },
+    "g8xUIE3C3UE": {
+      "tema": "Notícias e Política",
+      "brutos": 348,
+      "aprovados_filtros": 318,
+      "sorteados": 26
+    },
+    "ESAXuqRpoxU": {
+      "tema": "Notícias e Política",
+      "brutos": 4582,
+      "aprovados_filtros": 4282,
+      "sorteados": 26
+    },
+    "1HkSopRKW_o": {
+      "tema": "Notícias e Política",
+      "brutos": 443,
+      "aprovados_filtros": 345,
+      "sorteados": 26
+    },
+    "GQ_PKYctB9o": {
+      "tema": "Esportes",
+      "brutos": 6766,
+      "aprovados_filtros": 4735,
+      "sorteados": 26
+    },
+    "6iFjfAhj6_I": {
+      "tema": "Esportes",
+      "brutos": 2960,
+      "aprovados_filtros": 2560,
+      "sorteados": 26
+    },
+    "_UsKlaZmLZo": {
+      "tema": "Esportes",
+      "brutos": 3386,
+      "aprovados_filtros": 3201,
+      "sorteados": 26
+    },
+    "t39QZJ0SmKg": {
+      "tema": "Esportes",
+      "brutos": 4012,
+      "aprovados_filtros": 3580,
+      "sorteados": 26
+    },
+    "HxgGW_ECu0w": {
+      "tema": "Esportes",
+      "brutos": 422,
+      "aprovados_filtros": 341,
+      "sorteados": 26
+    },
+    "PNzvDH87Vno": {
+      "tema": "Games",
+      "brutos": 1288,
+      "aprovados_filtros": 499,
+      "sorteados": 26
+    },
+    "s5DL23DnrkY": {
+      "tema": "Games",
+      "brutos": 454,
+      "aprovados_filtros": 195,
+      "sorteados": 26
+    },
+    "0BZg6uAR0Lc": {
+      "tema": "Games",
+      "brutos": 2060,
+      "aprovados_filtros": 1618,
+      "sorteados": 26
+    },
+    "FH477v2Up8E": {
+      "tema": "Games",
+      "brutos": 3265,
+      "aprovados_filtros": 2237,
+      "sorteados": 26
+    },
+    "YgkcaK0uh1k": {
+      "tema": "Games",
+      "brutos": 2342,
+      "aprovados_filtros": 1914,
+      "sorteados": 26
+    },
+    "uEtGTq92Cmk": {
+      "tema": "Música",
+      "brutos": 7199,
+      "aprovados_filtros": 3873,
+      "sorteados": 26
+    },
+    "0kiCQLdfgVg": {
+      "tema": "Música",
+      "brutos": 5425,
+      "aprovados_filtros": 3934,
+      "sorteados": 26
+    },
+    "K0yGX8RNb0k": {
+      "tema": "Música",
+      "brutos": 2533,
+      "aprovados_filtros": 1576,
+      "sorteados": 26
+    },
+    "THAc6Y_UltE": {
+      "tema": "Música",
+      "brutos": 4544,
+      "aprovados_filtros": 2884,
+      "sorteados": 26
+    },
+    "lBDDMrUCz1A": {
+      "tema": "Música",
+      "brutos": 8186,
+      "aprovados_filtros": 5143,
+      "sorteados": 26
+    },
+    "CtOxmaKk-Ec": {
+      "tema": "Entretenimento",
+      "brutos": 824,
+      "aprovados_filtros": 788,
+      "sorteados": 26
+    },
+    "msTXHZ3dYJI": {
+      "tema": "Entretenimento",
+      "brutos": 979,
+      "aprovados_filtros": 925,
+      "sorteados": 26
+    },
+    "KmnZ3vIynTA": {
+      "tema": "Entretenimento",
+      "brutos": 763,
+      "aprovados_filtros": 635,
+      "sorteados": 26
+    },
+    "vRy6zEC1VWU": {
+      "tema": "Entretenimento",
+      "brutos": 913,
+      "aprovados_filtros": 797,
+      "sorteados": 26
+    },
+    "IhDIenvRr0Q": {
+      "tema": "Entretenimento",
+      "brutos": 199,
+      "aprovados_filtros": 173,
+      "sorteados": 26
+    },
+    "GgrDRiSLswc": {
+      "tema": "Ciência e Tecnologia",
+      "brutos": 2298,
+      "aprovados_filtros": 2164,
+      "sorteados": 26
+    },
+    "ZWCA8ejKUdA": {
+      "tema": "Ciência e Tecnologia",
+      "brutos": 1475,
+      "aprovados_filtros": 1296,
+      "sorteados": 26
+    },
+    "1_c6nk3D1kY": {
+      "tema": "Ciência e Tecnologia",
+      "brutos": 298,
+      "aprovados_filtros": 232,
+      "sorteados": 26
+    },
+    "toM6eeYfhNU": {
+      "tema": "Ciência e Tecnologia",
+      "brutos": 664,
+      "aprovados_filtros": 584,
+      "sorteados": 26
+    },
+    "aIDToFXq3UQ": {
+      "tema": "Ciência e Tecnologia",
+      "brutos": 1677,
+      "aprovados_filtros": 1455,
+      "sorteados": 26
+    },
+    "Gw2HTCcVeVo": {
+      "tema": "Educação",
+      "brutos": 7011,
+      "aprovados_filtros": 6438,
+      "sorteados": 26
+    },
+    "yaAviLcjboE": {
+      "tema": "Educação",
+      "brutos": 351,
+      "aprovados_filtros": 310,
+      "sorteados": 26
+    },
+    "H8JuVyyghx8": {
+      "tema": "Educação",
+      "brutos": 1133,
+      "aprovados_filtros": 966,
+      "sorteados": 26
+    },
+    "DhenPyNaNYQ": {
+      "tema": "Educação",
+      "brutos": 1873,
+      "aprovados_filtros": 1683,
+      "sorteados": 26
+    },
+    "uzd7SfM_kYs": {
+      "tema": "Educação",
+      "brutos": 295,
+      "aprovados_filtros": 247,
+      "sorteados": 26
+    },
+    "Kv89_A4oPbo": {
+      "tema": "Comédia",
+      "brutos": 2850,
+      "aprovados_filtros": 1106,
+      "sorteados": 26
+    },
+    "8IsObkQEMWg": {
+      "tema": "Comédia",
+      "brutos": 976,
+      "aprovados_filtros": 853,
+      "sorteados": 26
+    },
+    "HQv3SV1uaEs": {
+      "tema": "Comédia",
+      "brutos": 3877,
+      "aprovados_filtros": 3339,
+      "sorteados": 26
+    },
+    "Lmk98vBBrIU": {
+      "tema": "Comédia",
+      "brutos": 738,
+      "aprovados_filtros": 577,
+      "sorteados": 26
+    },
+    "KPJIShI-7EU": {
+      "tema": "Comédia",
+      "brutos": 459,
+      "aprovados_filtros": 339,
+      "sorteados": 26
+    },
+    "ngvIxl8i8n0": {
+      "tema": "Pessoas e Blogs",
+      "brutos": 2071,
+      "aprovados_filtros": 1605,
+      "sorteados": 26
+    },
+    "sFEklf1x0Kk": {
+      "tema": "Pessoas e Blogs",
+      "brutos": 196,
+      "aprovados_filtros": 179,
+      "sorteados": 26
+    },
+    "BWwLQOf5Ssw": {
+      "tema": "Pessoas e Blogs",
+      "brutos": 1000,
+      "aprovados_filtros": 759,
+      "sorteados": 26
+    },
+    "kwcXDeTZU34": {
+      "tema": "Pessoas e Blogs",
+      "brutos": 1187,
+      "aprovados_filtros": 1045,
+      "sorteados": 26
+    },
+    "l7XF4tmICEs": {
+      "tema": "Pessoas e Blogs",
+      "brutos": 709,
+      "aprovados_filtros": 661,
+      "sorteados": 26
+    },
+    "VrKjFYtbJ38": {
+      "tema": "Estilo e Tutoriais",
+      "brutos": 3989,
+      "aprovados_filtros": 3026,
+      "sorteados": 26
+    },
+    "O0DotKbk5-U": {
+      "tema": "Estilo e Tutoriais",
+      "brutos": 2059,
+      "aprovados_filtros": 1603,
+      "sorteados": 26
+    },
+    "IdsrZRe7RTA": {
+      "tema": "Estilo e Tutoriais",
+      "brutos": 6647,
+      "aprovados_filtros": 4988,
+      "sorteados": 26
+    },
+    "Y6qGNedr6tw": {
+      "tema": "Estilo e Tutoriais",
+      "brutos": 2658,
+      "aprovados_filtros": 2133,
+      "sorteados": 26
+    },
+    "6bRO65VeuTM": {
+      "tema": "Estilo e Tutoriais",
+      "brutos": 673,
+      "aprovados_filtros": 613,
+      "sorteados": 26
+    }
+  }
+}

@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0251", "texto": "A bruna energica e a sasha timida pra um crl KKKKKKKKKKKKKKKKKKKK"},
+{"id": "c0252", "texto": "nossa q novidade jovens usando droga😂😂😂😂 não tem em nenhum lugar do mundo só na russia"},
+{"id": "c0253", "texto": "Enquanto Donald Trump mira barquinhos, os submarinos passam invisível.😂😂😂"},
+{"id": "c0254", "texto": "Usava muito isso"},
+{"id": "c0255", "texto": "No inverno passado peguei -15 graus no sul da Bahia. Estava brabo"},
+{"id": "c0256", "texto": "Fiz e ficou Maravilhosa, meu filho pediu pra repetir de novo pra receber os amigos Obrigada 😊😊😊."},
+{"id": "c0257", "texto": "Vcs tbm são fodas.... 😂😂😂😂😂 Dilera."},
+{"id": "c0258", "texto": "Carai ney, raspa esse cabelo, deixa só um difarce degrade. . Ta feiao mané"},
+{"id": "c0259", "texto": "Medicamento REVOC faz isso."},
+{"id": "c0260", "texto": "Tudo seria sem trauma, se em vez de rodovias, fossem ferrovias"},
+{"id": "c0261", "texto": "Essa mulher è maluca: tratar os pais assim e acha que subirá na vida........"},
+{"id": "c0262", "texto": "Gente, fiz hoje 20/07/25. Fica incrível. Eu bati na batedeira e a farinha e fermento, mexi com o fuê. Fiquei com medo de jogar a calda, mas fui sem medo. Tirei o bolo do forno, deixei na bancada e fui fazer a calda. Começou a ferver, deixei 2 min e lasquei no bolo. Nessa hora a fé da uma balançada 😂😂😂. Mas ele ficou maravilhoso! Dá muito certo!"},
+{"id": "c0263", "texto": "Foi o que rendeuais dinheiro no fim das contas kkkkk"},
+{"id": "c0264", "texto": "Eu também gostei do terceiro 🎉🎉🎉🎉"},
+{"id": "c0265", "texto": "Eu usava 6000 é muito bonito"},
+{"id": "c0266", "texto": "Cara, fico incrédula pq se o salmão precisa se NO MÍNIMO 30mins, pq colocaram faltando os 30mins restantes de prova? Fico em choque que esse povo está numa competição conta com a sorte…"},
+{"id": "c0267", "texto": "Parabéns a polícia, infelizmente gastaram muita munição."},
+{"id": "c0268", "texto": "Eu escutando enquanto subia um projeto no github -_-"},
+{"id": "c0269", "texto": "Qm tem coragem de fazer isso kakakakakak😂"},
+{"id": "c0270", "texto": "kkkkkkkkkkk Tom é muito engraçado. O Igor repetiu a rima dele e ele mandou um \"é bom na rima, em?\" KKKKKK"},
+{"id": "c0271", "texto": "O \"Burrão\" é um gênio de inteligência emocional!!!😂"},
+{"id": "c0272", "texto": "Eu sou fã de Mateus e Kauan 😢"},
+{"id": "c0273", "texto": "não sei como já e a semi final sendo q mais de 4 times se classificaram"},
+{"id": "c0274", "texto": "Drogas ocidentais colocada para tentar destruir um pais"},
+{"id": "c0275", "texto": "Leonela chata demais meu Deus Sofia é arrogante"},
+{"id": "c0276", "texto": "Bom dia, que pedra é essa que você colocou no forno para assar a pizza?"},
+{"id": "c0277", "texto": "Faltou o Akalaev, rs"},
+{"id": "c0278", "texto": "Sério isso? Então, ok! Está bem decadente a humanidade."},
+{"id": "c0279", "texto": "Como dizia titio Sócrates: Só sei que nada sei..."},
+{"id": "c0280", "texto": "Colocaria framgo no lugar do atum"},
+{"id": "c0281", "texto": "Vai falar a palabra deliciosa 30 mil vezes😮😮😮😮"},
+{"id": "c0282", "texto": "WhatsApp se eu te colocar 3810 é mais fácil então você coloca outra senha essa tá muito fácil e o Carlos está entrando para roubar seu seu suas coisas é urgente"},
+{"id": "c0283", "texto": "Deu o nome"},
+{"id": "c0284", "texto": "Obrigada por compartilhar tantas delícias!❤"},
+{"id": "c0285", "texto": "Todos devem estar uma delícia. O primeiro certeza eu pediria em um restaurante, mas o que dá pra fazer em casa e é mais fácil é o que tem sardinha e ovo. Mas na prática a gente só faz o miojo com no máximo com ovo mesmo e fica delícia. ☺️"},
+{"id": "c0286", "texto": "Joga outra copa 😢😢😢😢"},
+{"id": "c0287", "texto": "Uma sopa marrom espessa e pesada... me faz lembrar de um riozinho mais nojento que nadei..."},
+{"id": "c0288", "texto": "Parece o crack aqui do jacarezinho"},
+{"id": "c0289", "texto": "Oi tinigon sou novo escrito"},
+{"id": "c0290", "texto": "Ganhar dos Coreanos não vale, os caras jogam de olhos fechados.kkk quero ver contra: Argentina, Espanha, França..."},
+{"id": "c0291", "texto": "Felipe sempre passando pano para o novinho"},
+{"id": "c0292", "texto": "Eu tô adorando essa torta eu sou do interior da Bahia eu tô investindo essa torta que eu vou fazer agora pro Natal eu tô bratindo essa torta aí é gostosa eu adoro receita"},
+{"id": "c0293", "texto": "quantos brasileiros lutam no lado russo?"},
+{"id": "c0294", "texto": "Tava procurando até da DeppWeb Dark Fut. O editor tá devagar em… pow"},
+{"id": "c0295", "texto": "Hoje estou com 68 anos e desde criança em minha casa só tomamos leite em pó, porém hoje é difícil comprar são muitas misturas, Ronaldo SP"},
+{"id": "c0296", "texto": "Será que dá pra fazer na Airfryer?"},
+{"id": "c0297", "texto": "👍muito bom, utilissímo👏🏻👏🏻👏🏻👏🏻👏🏻agora é adotar é praticar...gratidão bênçãos DOUTOR!"},
+{"id": "c0298", "texto": "Incrível, que casa linda, que energia maravilhosa assistir esse vídeo, que orgulho dessa mulher ❤"},
+{"id": "c0299", "texto": "Fazer multitasking. Dormir pouco. Agora esperei terminar o vídeo pra escrever o comentário 🤭 Começando a mudança aos poucos. Obrigada pelo vídeo ❤🙏🏼🌷"},
+{"id": "c0300", "texto": "Como pode uma pessoa tão cativante . É uma receita comum mais se torna uma receita especial da forma delicada que voce explica."}
+]

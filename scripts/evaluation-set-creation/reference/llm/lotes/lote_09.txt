@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0401", "texto": "Agradeço ao video,uma ajuda que nem psiquiatra fala,eles querem só o nosso dinheiro. E entregou quase tudo de graça"},
+{"id": "c0402", "texto": "Me ajudou muito nunca votei obrigada pela dica"},
+{"id": "c0403", "texto": "1-Ohuhu 2-Touch 3-Super Soft 4-Acrílico"},
+{"id": "c0404", "texto": "Assistam ao filme \"A outra terra\"."},
+{"id": "c0405", "texto": "Que dezatino foi esta manha taz aperceber ! Nelia vem sabado mais a filĥa 🎉"},
+{"id": "c0406", "texto": "Esse gol do Marrocos poderia ter isto evitado , nada ver o Alison tentá encurtar distâncias dando opção pro cara dar uma cavadinha , o cara já sabia que ele ia fazer aquilo"},
+{"id": "c0407", "texto": "SUCESSO ATRÁS DE SUCESSO ❤"},
+{"id": "c0408", "texto": "Primeira vez que me deu vontade de comer miojo hehe"},
+{"id": "c0409", "texto": "Começou em 2003 quando o Brasil estava bem o plano Real tinha ajeitado um tanto a economia, depois no segundo mandato surgiram os escândalos do governo, veio a outra presidente que bagunçou toda a economia e foi impeachmada, depois o vice assumiu e nada fez, Bolsonaro assumiu o governo e encima de uma pandemia governou o Brasil por quatro anos difíceis e ainda assim melhorou o país, tem alguma dúvida que melhor governo foi Bolsonaro. Aí esse outro não sabemos nem se foi eleito assumiu e dali pra o Brasil vem só descendo a ladeira detonando a economia, e quebrando o Brasil."},
+{"id": "c0410", "texto": "Turnê única kkkkk , dúvido , depois da separação , vai ter mais umas 3 edições 😅😅😅"},
+{"id": "c0411", "texto": "Não tem erro quando vem deles"},
+{"id": "c0412", "texto": "o primeiro prato deu: 259,00"},
+{"id": "c0413", "texto": "Eu tenho de 200 cores"},
+{"id": "c0414", "texto": "Chung dando um baile de interpretação....arrasou.... Tô amando .... Que venham mais episódios 😊"},
+{"id": "c0415", "texto": "Quando ele posta video eu assisto o mais rapido q eu possso igualmesse chanhao"},
+{"id": "c0416", "texto": "Que casa lindaaaa"},
+{"id": "c0417", "texto": "Eae como que vai essa alegria toda"},
+{"id": "c0418", "texto": "É PÔR ISSO QUE O LEITE NINHO É O MAIS GOSTOSO E SABOROSO 😋😋😋😋"},
+{"id": "c0419", "texto": "W ciencia todo dia ❤️"},
+{"id": "c0420", "texto": "Eu tava uns 5 dias sem rir, hoje achei esse vídeo e tô rindo pra Kralho kkkkkkkkkkkkkkkkkkkkkkk ESSE VÍDEO DEVERIA TER UMAS 7 HORAS 😂😂😂😂😂😂😂😂❤❤❤❤❤❤❤"},
+{"id": "c0421", "texto": "Não tem como ficar parado com essa música"},
+{"id": "c0422", "texto": "É so matar e pronto😂"},
+{"id": "c0423", "texto": "La farina Caputo è una delle migliori in Italia!!!!! Grande qualità!🎉❤"},
+{"id": "c0424", "texto": "Carambolas que música envolvente , sucesso dos brabos, até parece que vão fazer babadebisses"},
+{"id": "c0425", "texto": "Ganhar dinheiro para morrer e deixar tudo para a viúva com o ricardao🎉! Os negos morrem na guerra enquanto os lideres não saem do palácio"},
+{"id": "c0426", "texto": "Quem quer o dileira de volta da like"},
+{"id": "c0427", "texto": "Tony gol que é esse jogo aparece ainda aí agora😅"},
+{"id": "c0428", "texto": "Respeita o robô 🤖"},
+{"id": "c0429", "texto": "Porque eles não erram nunca! 👏👏"},
+{"id": "c0430", "texto": "Galinha morta até eu😢"},
+{"id": "c0431", "texto": "Como pode? Deve ser de Judas Tadeu e não do Judas Iscariote o traidor, pois o mesmo após a traição suicidou-se."},
+{"id": "c0432", "texto": "Eu consigo quando senha 282"},
+{"id": "c0433", "texto": "o homem mais assustador do mundo no octógono chama: Jon Bones Jones."},
+{"id": "c0434", "texto": "4:12 aquela risada inesquecível😂❤"},
+{"id": "c0435", "texto": "Amei todas as receitas, mto obrigada, Deus te abençoe!"},
+{"id": "c0436", "texto": "Sem evidências tudo interpretação já foi dito tudo im universo interpretativo talvez isso seja a corrida dos ratos por mais bonita que seja, quanto mais estudo mais nojo 🤮 tenho de se esforço sem sentido de dar sentido ao que não tem sentido"},
+{"id": "c0437", "texto": "Eu tava assistindo de boa e ai do nada vem um anúncio de 5 minutos, vai se ferrar kkkkkkkkkk tomara que o YouTube não faça isso ser recorrente"},
+{"id": "c0438", "texto": "Deve ser muito bom ser amigo do neymar, nao faz nada e ainda ganha dinheiro pra ser amigo, inveja boa."},
+{"id": "c0439", "texto": "É muita falta de vergonha alheia!"},
+{"id": "c0440", "texto": "O Chão Giratória De Vidro Tá igual a Caixa Banco"},
+{"id": "c0441", "texto": "O 2 é muito a cara da isadora"},
+{"id": "c0442", "texto": "Quando ele começou a contar , lembrei da caixinha de música 😂, só não me lembrava quem ele tinha tirado 😂"},
+{"id": "c0443", "texto": "Minha duvida é se as urnas são realmente confiáveis?!"},
+{"id": "c0444", "texto": "Tom tá melhorando as rimas kkkk"},
+{"id": "c0445", "texto": "Moro em Curitiba. Vizinha de vocês. E também não gosto do frio, mas acaba se acostumando.vou fazer esse bolo hoje pra lembrar do bolo que minha mãe fazia na infância. Deus abençoe vocês"},
+{"id": "c0446", "texto": "Um geografo se inscreveu no canal!!! Muito bom!"},
+{"id": "c0447", "texto": "O louco do nada o cara ficou depressivo"},
+{"id": "c0448", "texto": "Assistindo e pensando que tipo de pessoa suporta essa Taynan… ser humano INSUPORTÁVEL"},
+{"id": "c0449", "texto": "Caraca mano kkk, o garoto da Argentina tinha o mesmo nome que ele, que sorte❤😂"},
+{"id": "c0450", "texto": "Fiz hoje, 30 de agosto de 2026. Ficou uma delícia. Não tenho batedeira e usei forma retangular média. Aumentei a receita em mais um ovo e mais metade de tudo. Bom demais ❤"}
+]

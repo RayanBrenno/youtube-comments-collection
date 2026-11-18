@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0001", "texto": "Né uma musga não, és um Hino 🤌❤️"},
+{"id": "c0002", "texto": "Ator sensacional, e personagem extremamente carismático e fascinante! Por mim o Rubinho ficaria até o final da novela!"},
+{"id": "c0003", "texto": "NOIS TI AMA NEY APESAR DE TUDO 😭😭😭😭❤️❤️❤️❤️❤️"},
+{"id": "c0004", "texto": "Hoje tenho vergonha por ter cometido alguns desses crimes há muitos anos, pois não sabia da ilegalidade."},
+{"id": "c0005", "texto": "Amei sua casa Anitta, tem personalidade e muita energia de leveza. Parabéns.!!! Amo vc. Te desejo muito sucesso.!!!❤️🍾👏🏼👏🏼👏🏼"},
+{"id": "c0006", "texto": "Fiquei com vontade de comer o miojo do Cadu"},
+{"id": "c0007", "texto": "Tomei logo umas dez ❤❤❤❤"},
+{"id": "c0008", "texto": "Encorporar ??? Kkk ou encorpar....?!?!kkk😅"},
+{"id": "c0009", "texto": "Cara não para de passar vergonha pqp"},
+{"id": "c0010", "texto": "leite em pó, o verdadeiro terror para os alergicos a lactose"},
+{"id": "c0011", "texto": "A engenharia civile a geoeconomia que se fodam! Tentar bater de frente com um bioma desse tamanho é como acender uma dinamite na sala de casa! Já tem bastante praia, bastante porto e, como ditono vídeo, bastante especulação imobiliária que degrada as comunidades e leva toda a riqueza, deixando apenas lixo e destruição."},
+{"id": "c0012", "texto": "Eu fui o primeiro deixar o like"},
+{"id": "c0013", "texto": "Até quem não tá sofrendo, sofre com essa música. 😭"},
+{"id": "c0014", "texto": "Achei que era a Helena Rizzo pela thumb"},
+{"id": "c0015", "texto": "👏🏻👏🏻👏🏻amei vou fazer sempre"},
+{"id": "c0016", "texto": "parabéns para esses corajosos que lutam pela nossa sociedade"},
+{"id": "c0017", "texto": "Las cheguei atrasada pfvr não me mate 💔"},
+{"id": "c0018", "texto": "A gente vê a narureQ e pensa que tudo e fácil. Já pensou na luta diárias dos bichinhos? Sim! É uma guerra que desconhecemos. Luta pra sobreviver!"},
+{"id": "c0019", "texto": "Gostei de ver o procedimento muito processado. Mas faz tempo que não compro."},
+{"id": "c0020", "texto": "Dilera tem que estar em todos à partir de agora kkkkkk e se possível nos outros quadros tbm kkkkkkk"},
+{"id": "c0021", "texto": "Textos espúrios que não tem harmonização com o total conteúdo das escrituras , não podem serem considerados canônicos ou qualquer narrativa acrescentada seria considerando ensino bíblico"},
+{"id": "c0022", "texto": "Se não der mais nada certo na minha vida, eu tô aí"},
+{"id": "c0023", "texto": "8:01 \" gol de quem não se esconde \""},
+{"id": "c0024", "texto": "Oficialmente ainda não entramos no inverno kkk"},
+{"id": "c0025", "texto": "Ha 6 meses estou fazendo varios tratamentos sem exito"},
+{"id": "c0026", "texto": "A interpretação dele X a interpretação dela: esse rebolado sem noção diante do pai, a postura dos ombros. Não tem um diretor decente nessa cena para corrigir essa moça?"},
+{"id": "c0027", "texto": "TUDO O QUE COMEMOS E BEBEMOS NÃO É IGUAL DE ANTIGAMENTE, MUDOU O SABOR GOSTO DE TUDO E DIMINUIU A QUANTIDADE TAMBÉM 😢😢😢😢"},
+{"id": "c0028", "texto": "(enquanto Las fazendo um vídeo dizendo\"eu quase repeti de ano\") Eu que repeti 2 vezes: MUITO BURR-"},
+{"id": "c0029", "texto": "Esses policia do RN são mt mole kkkkkkkkkkk, se fosse aqui no RJ 10 policiais ja davam conta do recado, o cr dentro de uma casa quase do tamanho de uma kitnet e os caras tomando esse apavoro"},
+{"id": "c0030", "texto": "Eu gosto muito mas quero saber a sua opinião"},
+{"id": "c0031", "texto": "Vou fazer exesta essa sua receita gratidão tudo indica que seja uma delícia."},
+{"id": "c0032", "texto": "eu sonhei essa noite que estavam correndo atrás de mim querendo fazer uma lobotomia. Ja assisti esse video, vou assistir de novo pra lembrar o que é a lobotomia"},
+{"id": "c0033", "texto": "Adorei a aula❤"},
+{"id": "c0034", "texto": "EU GOSTEI DA TOUTI"},
+{"id": "c0035", "texto": "Os caras tão melhor doq engenheiros kkkkkkkkk engenheiros sempre vão fazer o produto pra quebrar e ter manutenção… 😂😂"},
+{"id": "c0036", "texto": "e desse tipo de video que eu gosto continua assim athos e quem gosta desse tipo de video deixa like"},
+{"id": "c0037", "texto": "E O DONO DA CASA FICOU NO PREJUIZO"},
+{"id": "c0038", "texto": "Reportagem excelente, verdadeiro jornalismo."},
+{"id": "c0039", "texto": "O conceito de deus apresentado me lembrou o Brahman do Advaita, o Tao ou o Ain Sof da Kabbalah. A Unidade, o Um sem um segundo, o Caminho que não pode ser descrito..."},
+{"id": "c0040", "texto": "Essas hora de postar 😂"},
+{"id": "c0041", "texto": "Isso tá muito bom!!!"},
+{"id": "c0042", "texto": "Tem algumas cotovelas na nuca do Jiri hein, meio estranho isso aí 🤷🏻‍♂️"},
+{"id": "c0043", "texto": "Oxi primo. E que mandato ele conseguiu fazer coisas boas mesmo relevantes pro brasileiro????"},
+{"id": "c0044", "texto": "Sharon e chung tô shipandoooo muito❤❤❤"},
+{"id": "c0045", "texto": "Tem várias na minha casa, nunca as matei. Ao mesmo tempo em que nunca tive livros nem roupas furadas."},
+{"id": "c0046", "texto": "Esses canais de IA virou uma praga no YouTube 🙄"},
+{"id": "c0047", "texto": "Uma vez em nova Friburgo a -4 no celta fiquei prezo em um acidente. eu não estava envolvido estava com o tanque cheio e tive que ficar de 23 as 03 com o aquecedor do carro ligado, nunca imaginei de usar isso. me salvou. pois não estava de roupa de frio adequada."},
+{"id": "c0048", "texto": "Meu Deus, Isadora adolescente a Jhenyfer adulta. Quanto tempo eu dormi? Kkkkk"},
+{"id": "c0049", "texto": "Onde o dilera tá é garantia de eu chorar de rir ❤😂"},
+{"id": "c0050", "texto": "Que história boa 🤣🤣🤣"}
+]

@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0451", "texto": "O VOTO NÃO É NEGOCIÁVEL! VOTE EM SEUS FILHOS E NETOS! A COISA TÁ FEIA! SHIIIIIIIIIT!"},
+{"id": "c0452", "texto": "Onde eles erram? Alguém pode me dizer?😌"},
+{"id": "c0453", "texto": "Eita porra mulherada mandou 😊"},
+{"id": "c0454", "texto": "Esse Jorge Higor é muito bom narrador , coloca ela na tv aberta"},
+{"id": "c0455", "texto": "Q 💩💩..atriz sem sal é essa aff"},
+{"id": "c0456", "texto": "Varia da qualidade do arroz e da panela que usa também, eu gosto de fazer na panela de pressão fica de mais o arroz"},
+{"id": "c0457", "texto": "Difícil e não ser feliz por pouco ,só a verdade..😢"},
+{"id": "c0458", "texto": "O que esse Poatan farmou de aura em cima do Jamahal foi ``p u t a r i a``"},
+{"id": "c0459", "texto": "Esse tipo de panela permite que o arroz continue cozinhando. Eu tenho dessa panela. Outro tipo de panela talvez não faça o cozimento."},
+{"id": "c0460", "texto": "Escócia e Haiti, eu acredito em vocês!"},
+{"id": "c0461", "texto": "Esses sistemas são bem econômicos más se o chofer dormir com o motor desligado no outro dia o motor pega?"},
+{"id": "c0462", "texto": "Se não for pra mamãe assim eu não quero"},
+{"id": "c0463", "texto": "Obrigado doutor andre wambier..vc e abençoado por deus..por tanta dedicação com nós...graças a Deus ainda não tive essa dor..mais depois dessa seu vídeo. Vou me cuidar mais...valeu doutor. ☆☆☆"},
+{"id": "c0464", "texto": "As coisas que faço constantemente são: checar notificações e multitasking ... iniciando hoje a reeducação comportamental sobre isto 😅"},
+{"id": "c0465", "texto": "Teto de gastos é uma das coisas mais patéticas ja inventadas no Brasil, em mais de 200 PAISES NO MUUUUNDO, só o Brasil tem isso. Agora o tiago esqueceu de citar 440B pra fazendeiro vagabundo milionario sugando do estado e mamando, dividas em titulo mamando no Estado."},
+{"id": "c0466", "texto": "Vou bater no liquidificador por 5 minutos pra fazer bastante espuma. Delicia 😋"},
+{"id": "c0467", "texto": "9:23 acho q n era necessario isso kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"},
+{"id": "c0468", "texto": "Adoro o Burrão.....me passa tanta coisa leve, boa, positiva e paz de espírito.......\"inocência\" e energia positiva contra pessoas amargas, negativas e invejosas."},
+{"id": "c0469", "texto": "Muito envolvente mesmo!"},
+{"id": "c0470", "texto": "Marrocos irreconhecivel!!...conseguiu empate com essa droga do Brasil."},
+{"id": "c0471", "texto": "cara o melhor canal ❤"},
+{"id": "c0472", "texto": "Qe delicia boa ideia❤amei❤você E taletoso❤❤❤❤❤❤❤❤"},
+{"id": "c0473", "texto": "Tenho dor a 18 anos ..sou de Santo André SP."},
+{"id": "c0474", "texto": "Que agonia vendo esse povo cozinhar de cabelo solto"},
+{"id": "c0475", "texto": "No Amazonas tem"},
+{"id": "c0476", "texto": "Eu fiz o bolo de laranja, deu super certo. Fora o cheirinho bom q deixa na casa, só não coloquei a calda pois achei q ficaria muito doce 😆"},
+{"id": "c0477", "texto": "Só achei você bem acelerada nesse vídeo. Justamente o contrário do que tá pregando."},
+{"id": "c0478", "texto": "Depois vão descobrir que todas essas hipóteses estavam erradas, porque ninguém tem como verificar essas hipóteses na prática 😂"},
+{"id": "c0479", "texto": "Excelente opções de saladas, vou investir nisso, saúde para quem dá valor a vida. Muito obrigada por nós ensinar."},
+{"id": "c0480", "texto": "Seleção fraca essa da Coreia, quero ver contra o Japão!"},
+{"id": "c0481", "texto": "Se fosse pra censurar tudo que o Dilera fala, nem levassem."},
+{"id": "c0482", "texto": "Se tá doido 😅 que moda boa"},
+{"id": "c0483", "texto": "Eu chorei de rir! kkkk"},
+{"id": "c0484", "texto": "Guima joga double money,por favor🙏🥺"},
+{"id": "c0485", "texto": "Neymar, no próximo vídeo, fará desafios de futebol com o elenco do los santos."},
+{"id": "c0486", "texto": "Poatan pra mim ja fez história no ufc 🔥🇧🇷"},
+{"id": "c0487", "texto": "Sasha Menegrelo ahhahahahaha a"},
+{"id": "c0488", "texto": "Melhor programa até hoje Tatá arrasou demais Sasha amooo Bruna amoooo adorei❤❤❤ sucesso a todas...Hector e fundamental 😂"},
+{"id": "c0489", "texto": "Alguém aki pelo WoT Blitz ou só eu??? 😅"},
+{"id": "c0490", "texto": "nós vota porque somos obrigados por mim não votava nosso Brasil Lindo Já era 😢😞"},
+{"id": "c0491", "texto": "E só colocar leite da vaca pra secar"},
+{"id": "c0492", "texto": "Que narrador sensacional! Que lutador sensacional!! 👏🏻👏🏻👏🏻👏🏻"},
+{"id": "c0493", "texto": "Eu sempre me lembro do comentário que Santo Agostinho faz sobre os maniqueistas, eles mesmos herdeiros em parte de várias ideias gnósticas. Agostinho dizia que os maniqueus prometiam uma ciência (gnose) que deixaria tudo claro é evidente e quando vc se aprofunda nesse saber, é visível que é algo muito mais confuso do que a doutrina dos apóstolos. São muitos eons, emanações, cosmogonias e entes metafísicos a ponto de realmente ficar difícil acompanhar a confusão que é o Pleroma gnóstico."},
+{"id": "c0494", "texto": "Uauuu amei este video"},
+{"id": "c0495", "texto": "Para você que esta lendo essa mensagem saiba que o correto seria, cobrar impostos das igrejas evangélicas."},
+{"id": "c0496", "texto": "Uns dos melhores programas"},
+{"id": "c0497", "texto": "oferta e demanda... Temm quem consome e quem produz!"},
+{"id": "c0498", "texto": "Tão bom que nem parece propaganda kkkk"},
+{"id": "c0499", "texto": "Faz isso Na Argentina 😂😂😂"},
+{"id": "c0500", "texto": "Eu sou amapaense vivendo aqui na Guiana Francesa, obrigado pelo vídeo ✌️❤️"}
+]

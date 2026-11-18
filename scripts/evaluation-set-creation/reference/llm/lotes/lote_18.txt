@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0851", "texto": "Da um like quem concorda que ficou uma bosta a casa. Uma parte ficou parecendo casa de uma curandeira africana. A outra parece que encontrou os moveis no lixo."},
+{"id": "c0852", "texto": "Posso votar todos em branco e 13 no final vai valer?"},
+{"id": "c0853", "texto": "Amei o look 2 ❤❤"},
+{"id": "c0854", "texto": "O lado humano que carrega o Cristo tem o nome de Jesus. Cristo é o nome da porção Divina, lembrando que Cristo não é o seu nome, mas a sua condição! Quem assistiu o vídeo entenderá o que estou dizendo!"},
+{"id": "c0855", "texto": "Muito bom,vou assistir várias vezes,pra pôr em prática 👏🏻👏🏻🙌🏻🙌🏻"},
+{"id": "c0856", "texto": "O cara é uma máquina ta postando video toda semana tem jeito n simplesmente cinema"},
+{"id": "c0857", "texto": "Oi, me chamo leomara estou escrevendo em 2026. Rs"},
+{"id": "c0858", "texto": "Justus...danfo bolsa importada com a empresa em RJ...Implorando dinheiro p Vorcaro kkkk....."},
+{"id": "c0859", "texto": "eu amo vcs demais"},
+{"id": "c0860", "texto": "Eu tenho linha chilena"},
+{"id": "c0861", "texto": "Vamos perfurar o cérebro, o que pode dar errado?"},
+{"id": "c0862", "texto": "Tanta mentira quântico"},
+{"id": "c0863", "texto": "Tem jeito não, é dar o play e já sentir a garganta secar! 🤎🤎🤎🤎 @simoneminhavida2023"},
+{"id": "c0864", "texto": "É a maior, a melhor, a mais cintilante, a mais linda, a mais mais do Brasil 😍😍😍😍🤎🤎🤎🚀🚀🚀🚀"},
+{"id": "c0865", "texto": "Mais um instrumento de subjulgação de pessoas vulneráveis. Posso ser maluco em pensar desse jeito mas pela descrição da cirugia e o público alvo dela me pareceu algo como um f3tiche, um abuso cerebral"},
+{"id": "c0866", "texto": "Narrador fantástico ❤ Rogério volgan"},
+{"id": "c0867", "texto": "Na Galicia ,norte da espana . Foi pego um sub casero"},
+{"id": "c0868", "texto": "Não espera esse final"},
+{"id": "c0869", "texto": "Não precisa jogar a traça no lixo; Basta jogar no quintal."},
+{"id": "c0870", "texto": "A minha não acertava os bolos depois que viu a suas receitas agora acertou Fizemos já três bolos com sua receita de chocolate,cenoura e agora de laranja 🍊 e ficou tudo uma delícia 😋 Obrigado por ajudar❤️14/3/2026"},
+{"id": "c0871", "texto": "Do nada o alace KKKKKKKKKKKK"},
+{"id": "c0872", "texto": "E o mais importante,não vote em candidatos corruptos nem direita nem esquerda"},
+{"id": "c0873", "texto": "Parabéns pelo vídeo, sempre pensei em tudo que foi dito nesse vídeo e foi explicado de forma muito didática!!"},
+{"id": "c0874", "texto": "COMO ASSIMMM 4 VIDEOS EM 1 MES?? VOU SURTARRR💞"},
+{"id": "c0875", "texto": "Essa receita posso assar em forno a lenha?"},
+{"id": "c0876", "texto": "Muito boa essa receita! Acabei de fazer , hoje 10/10/ 26, e coloquei para assar . Ansiosa pra provar.kkkk As lives de vocês são muito legais!"},
+{"id": "c0877", "texto": "EU TOMO LEITE NINHO LÍQUIDO SÓ QDO ACORDO À NOITE COM FOME. GELADO MESMO"},
+{"id": "c0878", "texto": "Nossa tô com água na boca 😋😋"},
+{"id": "c0879", "texto": "Boa noite TD bem Sou sua fam desculpa Cláudia"},
+{"id": "c0880", "texto": "Ele é demais"},
+{"id": "c0881", "texto": "Amei sua receita😊abraço"},
+{"id": "c0882", "texto": "Simoneere ti amo pra sempre"},
+{"id": "c0883", "texto": "Música boa dmais ❤"},
+{"id": "c0884", "texto": "Inscrito com sucesso !"},
+{"id": "c0885", "texto": "O cadres intala minecraft com mods de terror Polesenplo. Mimicer...mais 4 pessoas"},
+{"id": "c0886", "texto": "Correios quebrados, A OI quebrou, eletrobras quebrou, A REFIT quebrou, INSS quebrou, bancos no brasil na Lei magnistky entre diversas situações"},
+{"id": "c0887", "texto": "Um beijo da Anita ... 😘"},
+{"id": "c0888", "texto": "texto do gpt"},
+{"id": "c0889", "texto": "❤amei a dika.sgora so vou fazer assim.obrigado parabens ❤❤"},
+{"id": "c0890", "texto": "Meus dois centavos... Procura outra parada pra fazer irmão, ideia de bobo. Sucesso"},
+{"id": "c0891", "texto": "É canta mal pra caramba mas o que vale é a homenagem mas não puxou o talentoso pai pra música 👍🏽"},
+{"id": "c0892", "texto": "Sou novo no canal"},
+{"id": "c0893", "texto": "Joga jusjuto shenanigans no roblix"},
+{"id": "c0894", "texto": "SE VOCÊ TIVER HÉRNIA NÃO ASSISTA, VOCÊ VAI RIR MUITO E IR PARAR NO HOSPITAL 😂😂😂😂😂"},
+{"id": "c0895", "texto": "O Hit de 2025!"},
+{"id": "c0896", "texto": "As duas foram maravilhosas!😂😂😂"},
+{"id": "c0897", "texto": "Uma vez, um amigo meu foi pegar uma pipa pela linha, outro muleque puxou a pipa, a linha era cortante e deixou o dedão do meu amigo pendurado, como ele foi pro hospital rápido, deu pra recuperar, mas eu fico pensando como seria se ele tivesse demorado..."},
+{"id": "c0898", "texto": "Claro esses textos foram modificados pelos romanos."},
+{"id": "c0899", "texto": "Você pode mandar um para mim aqui no Brasil meu nome"},
+{"id": "c0900", "texto": "Na metade da história eu já lembrei o que tinha acontecido pq na época virou meme. kkkkk"}
+]

@@ -1,0 +1,167 @@
+{
+  "coletado_em_por_categoria": {
+    "25": "2026-10-23T23:50:08.132737+00:00",
+    "17": "2026-10-23T23:50:11.041231+00:00",
+    "20": "2026-10-23T23:50:13.139073+00:00",
+    "10": "2026-10-23T23:50:16.488375+00:00",
+    "24": "2026-10-23T23:50:18.447075+00:00",
+    "28": "2026-10-23T23:50:20.490574+00:00",
+    "27": "2026-10-23T23:50:22.413268+00:00",
+    "23": "2026-10-23T23:50:25.986124+00:00",
+    "22": "2026-10-23T23:50:27.950126+00:00",
+    "26": "2026-10-23T23:50:34.639749+00:00"
+  },
+  "categorias": {
+    "25": "Notícias e Política",
+    "17": "Esportes",
+    "20": "Games",
+    "10": "Música",
+    "24": "Entretenimento",
+    "28": "Ciência e Tecnologia",
+    "27": "Educação",
+    "23": "Comédia",
+    "22": "Pessoas e Blogs",
+    "26": "Estilo e Tutoriais"
+  },
+  "parametros_busca": {
+    "endpoint": "search.list",
+    "por_categoria": {
+      "25": {
+        "type": "video",
+        "videoCategoryId": "25",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "17": {
+        "type": "video",
+        "videoCategoryId": "17",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "20": {
+        "type": "video",
+        "videoCategoryId": "20",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "10": {
+        "type": "video",
+        "videoCategoryId": "10",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "any"
+      },
+      "24": {
+        "type": "video",
+        "videoCategoryId": "24",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "28": {
+        "type": "video",
+        "videoCategoryId": "28",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "27": {
+        "type": "video",
+        "videoCategoryId": "27",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "23": {
+        "type": "video",
+        "videoCategoryId": "23",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "22": {
+        "type": "video",
+        "videoCategoryId": "22",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      },
+      "26": {
+        "type": "video",
+        "videoCategoryId": "26",
+        "regionCode": "BR",
+        "relevanceLanguage": "pt",
+        "publishedAfter": "2025-01-01T00:00:00Z",
+        "publishedBefore": "2026-10-01T00:00:00Z",
+        "order": "viewCount",
+        "videoDuration": "medium"
+      }
+    },
+    "max_paginas_por_categoria": 5,
+    "paginas_buscadas_por_categoria": {
+      "25": 2,
+      "17": 2,
+      "20": 2,
+      "10": 2,
+      "24": 2,
+      "28": 2,
+      "27": 3,
+      "23": 2,
+      "22": 2,
+      "26": 2
+    }
+  },
+  "criterios": {
+    "videos_por_categoria": 5,
+    "comentarios_min": 300,
+    "comentarios_max": 10000,
+    "views_min": 10000,
+    "short": "duração <= 180s e formato vertical (player.embedHeight > embedWidth)",
+    "idiomas_aceitos": [
+      "pt",
+      "pt-br"
+    ],
+    "pais_canal": "BR",
+    "um_video_por_canal_por_categoria": true,
+    "exclui": [
+      "lives",
+      "conteúdo infantil",
+      "Shorts",
+      "comentários desativados"
+    ]
+  },
+  "totais": {
+    "selecionados": 50,
+    "avaliados": 797
+  }
+}

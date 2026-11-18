@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0901", "texto": "o ser humano é bizarro"},
+{"id": "c0902", "texto": "Como vota branco?"},
+{"id": "c0903", "texto": "Amigo, o vídeo ficou muito bom e o roteiro também está excelente. Acho que uma música de fundo no estilo NCS ajudaria a deixar o conteúdo ainda mais dinâmico e envolvente. Abraços de sódio!"},
+{"id": "c0904", "texto": "Parabéns à todos os Policiais envolvidos"},
+{"id": "c0905", "texto": "Gente como esse de jaqueta de couro e lindo 😍😍"},
+{"id": "c0906", "texto": "chama o bruno lambert"},
+{"id": "c0907", "texto": "Amei o vídeos ❤❤"},
+{"id": "c0908", "texto": "Qual o nome do apresentador? Ele é muito bom sou fã desse cara, me inscrevi por causa dele"},
+{"id": "c0909", "texto": "'Terra' é uma deusa romana. Também era chamada de Tellus. Sol e Lua também."},
+{"id": "c0910", "texto": "Eu amei pq super da conta de 2 dias em um final de semana pra duas pessoas! Vou fazer com certeza! Muito obrigada"},
+{"id": "c0911", "texto": "👁 Saudações Quânticas aqui do Portal! Se tudo é estranho no mundo quântico… imagina saber que até seus pensamentos podem vir de um campo invisível? 🌌 Realidades Quânticas são tipo Wi-Fi da consciência, basta ter a senha e o acesso ao portal 🖖🏻"},
+{"id": "c0912", "texto": "Doeu aqui no coração… 💔"},
+{"id": "c0913", "texto": "É difícil misturar maças caindo com física quântica... Vídeo fraquinho."},
+{"id": "c0914", "texto": "Tudo conversa fiado tenho minha teoria judas iscariote nunca se enforcou e nem devolveu as trinta medalhas de prata ele comprou um terreno chato canpo e um diafoi lá de bebedeira lá era um terreno tipo ribanceira tropeçou numa pedra cais lá embaixo se ele estrubuxou saiu as tripas o buxo e morreu até hoje o terreno e amaldiçoado chama-se campo do oleiro ele era família rica ficou com ciúmes de Madalena que beijava na boca de Jesus ele queria também mas Maria lhe virou as costas ela só amava Jesus e nada mais está é minha teoria cada um que fala seus pensamentos"},
+{"id": "c0915", "texto": "Mi deu água na boca mesmo. Parabéns."},
+{"id": "c0916", "texto": "AAAAAAAAAH, por isso que tem um vido do porta exatamente assim kkkkkkk eu assisti um dia desses, ri muito!!! Kkkkkkkk"},
+{"id": "c0917", "texto": "Se sua casa não tiver estantes com livros deixa lá. Se houver prepare-se pra tê-los todos roídos por ela."},
+{"id": "c0918", "texto": "Explicação muito bem feita, parabéns pelo conteúdo, sucesso!"},
+{"id": "c0919", "texto": "Maravilhosa,adoro suas receitas"},
+{"id": "c0920", "texto": "Que lindo. Amei!!"},
+{"id": "c0921", "texto": "a china se vingando da guerra do Ópio"},
+{"id": "c0922", "texto": "Vcs são fantásticos! Ontem sai com dor na barriga de tanto rir no teatro! Recomendo que todos assistam!!!"},
+{"id": "c0923", "texto": "Não gosto de carne de porco, ovo cru e nem sardinha. Mas que os pratos ficaram bonitos, isso ficaram mesmo!"},
+{"id": "c0924", "texto": "Miojo é pra ser prático, o prato da chefe Bia foi o melhor!"},
+{"id": "c0925", "texto": "Vou votar no Lula ⭐️🚀"},
+{"id": "c0926", "texto": "Q PANCADA MEUS AMIGOS😍"},
+{"id": "c0927", "texto": "Boa tarde , coloca a calda no bolo quente ou espera esfriar ?"},
+{"id": "c0928", "texto": "ou seja, se dependesse do efetivo ucraniano, essa guerra já teria terminado há tempos. Plus, enganar brasileiros já é piada velha."},
+{"id": "c0929", "texto": "a xícara de vocês tem quantos ml ou gramas? seria legal se vcs colocassem essas quantidades na legenda"},
+{"id": "c0930", "texto": "Mano já ameiii"},
+{"id": "c0931", "texto": "Se fosse fazer miojo, faria o \"tipo carbonara\"."},
+{"id": "c0932", "texto": "E BOM OBSERVAR QUE QUEM FOI EMPOSSADO NÃO FOI O LULA ORIGINAL, E SIM, O LULA SÓSIA POIS O LULA ORIGINAL FOI MORTO EM 05 DE NOVEMBRO DE 2022."},
+{"id": "c0933", "texto": "Testei ontem e ficou bom!"},
+{"id": "c0934", "texto": "por que será que esses cantores sempre querem gravar DVD em Manaus?"},
+{"id": "c0935", "texto": "Que ponto você está"},
+{"id": "c0936", "texto": "No Brasil está cheios desses aí que misturam o inglês com português para se acharem importantes, não sabem o significado da palavra em o português, mas falam assim mesmo rsrs acham bonitinho rsrs falar errado e põe na concordância errada é um caos, quem realmente fala a língua inglesa ri."},
+{"id": "c0937", "texto": "E que diretora né?"},
+{"id": "c0938", "texto": "Sua convocação pra seleção! A vaga tem que ser sua!"},
+{"id": "c0939", "texto": "Tem um bar na minha cidade que chama plano b"},
+{"id": "c0940", "texto": "Like pelo \"gostinho safado do tempero do miojo\" metido à carbonara. De longe a receita que mais gostei pela coerência da proposta e do prato. 🙂"},
+{"id": "c0941", "texto": "Quero usar mefedrona"},
+{"id": "c0942", "texto": "Mas era dia em Urano?"},
+{"id": "c0943", "texto": "quem é time FINAL GLORIA VS DANIELA curte aqui pra eu ver um negócio"},
+{"id": "c0944", "texto": "Que jogo foda 👏👏"},
+{"id": "c0945", "texto": "Eu me pergunto será que a Jeniffer mora com a mãe dela ainda 😅😂😂"},
+{"id": "c0946", "texto": "igualzinho a escola que o 9° foi,que era da minha escola"},
+{"id": "c0947", "texto": "Que conteúdo riquíssimo ❤"},
+{"id": "c0948", "texto": "Meu Deus . Anita é extremamente elegante e sofisticada. Que casa deslumbrante e acolhedora. Deus abençoe o seu lar que seja de amor e aconchego."},
+{"id": "c0949", "texto": "Aparentemente nos pagamos caro por tudo que foi feito, mas teve seus resultados"},
+{"id": "c0950", "texto": "Moça eu tenho um toque você esqueceu de pintar uma parte lá da rua do de pintar acrílico , mas o resto ficou muito bonito , só que você poderia arrumar por favor é que eu tenho muito toque mesmo ❤ e no lápis de cor também teve uma partezinha que a senhora não pintou , na rua também ... Obrigado pela compreensão 🙏🏻 me desculpa pela minha doidura mas é um toque ❤"}
+]

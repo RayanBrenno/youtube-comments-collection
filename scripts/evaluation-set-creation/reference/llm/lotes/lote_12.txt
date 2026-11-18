@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0551", "texto": "Uma dica para forma com água quando não tiver vinagre pode colocar pingos de limão mesmo a sua forma manchada coloca o pingo de limão depois ela vai ficar limpinha é só passar um Bombril com sabão ok você me dá a dica do pudim eu dou a dica da forma para ficar limpinha"},
+{"id": "c0552", "texto": "Resumindo: Ligue o foda-se e seja feliz."},
+{"id": "c0553", "texto": "Q porcaria consegui ver até os 5:23 na velocidade 2x 🤮"},
+{"id": "c0554", "texto": "a cada like volto aqui pra ouvir de novo essa moda"},
+{"id": "c0555", "texto": "Video mt bom man e so pra avisar tem um cara roubando seu conteudo colocando aqueles video de coisas satisfatorias em baixo e nao colocando os creditos"},
+{"id": "c0556", "texto": "Cara, a falta que o Casemiro fez pra essa seleção"},
+{"id": "c0557", "texto": "Nenhuma Só sei que o 22 é certo❤ os demais serão os aliados ao PL ❤"},
+{"id": "c0558", "texto": "Eu não mato elas. Deixo as aranhas treme-treme, aranhas saltadoras e as lagartixas fazerem um banquete com elas. As vezes tiro da parede do meu quarto e coloco direto na teia das aranhas que moram na horta aqui de casa kkkkkkk"},
+{"id": "c0559", "texto": "Muito bom parabéns 👏👏🙏🙌"},
+{"id": "c0560", "texto": "2 tá de boa aí nó é o meu nome completo ❤❤❤🎉🎉🎉"},
+{"id": "c0561", "texto": "Os juízes estão parando as lutas muito rapidamente!!!!"},
+{"id": "c0562", "texto": "Todos fossem sou fã do athossssss"},
+{"id": "c0563", "texto": "Como eu queria ter visto esse jogo ao vivo, jogo incrível"},
+{"id": "c0564", "texto": "Narração ou gritaria?"},
+{"id": "c0565", "texto": "Vem conhecer a caranguejeira 😂😂😂😂😂😂😂😂😂😂😂😂😂😂"},
+{"id": "c0566", "texto": "A cada programa que passa Leonela e Sofia seguem em batalha acirrada de qual das duas é mais chata"},
+{"id": "c0567", "texto": "Skskss e muito bom vei ❤❤"},
+{"id": "c0568", "texto": "Esse funk na hora do gol nao da né"},
+{"id": "c0569", "texto": "Escravidão animal no leitinho"},
+{"id": "c0570", "texto": "O desgraçado do sabari"},
+{"id": "c0571", "texto": "Como instalar esse jogo? Inscrita nova!"},
+{"id": "c0572", "texto": "Guima, joga Avatar Word 😢🥺😭"},
+{"id": "c0573", "texto": "Fera demais ver sua rotina em jogo fora de casa juninho, jogou mto nesse jogo ainda por cima. Faz um video do album da copa juninhooo, TMJ parabens pra você irmao!!!!"},
+{"id": "c0574", "texto": "Pelo tesde e compreensão bo nervo siatico já vô fazer esecio Ágora"},
+{"id": "c0575", "texto": "eu quero morar na casa de Anittaaaaa"},
+{"id": "c0576", "texto": "5- E para quem tem insônia?"},
+{"id": "c0577", "texto": "Cadres sou seu fã me fixa por favor"},
+{"id": "c0578", "texto": "Estou positivamente surpresa com a casa da Anitta. Tudo de extremo bom gosto! Que seja muito feliz no seu novo refúgio."},
+{"id": "c0579", "texto": "Que golpe no coração essa letra 😢❤"},
+{"id": "c0580", "texto": "Vinicius hendriks neimar juntos talves ganhe do haiti"},
+{"id": "c0581", "texto": "Alguém em 2026 ai"},
+{"id": "c0582", "texto": "Nunca consegui fazer torta de liquidificador todas que eu fiz não ficaram saborosa vou fazer essa receita pra vê se desta vez vai dar certo gostei dá maneira que você ensina com muita delicadeza obrigada 😋"},
+{"id": "c0583", "texto": "Tenho uma padeira Britania, que bate massa. Posso fazer nela?"},
+{"id": "c0584", "texto": "Música Muito viciante ❤😂"},
+{"id": "c0585", "texto": "Dos mesmos criadores do Gugu e o PCC"},
+{"id": "c0586", "texto": "Nossa, que interessante, tudo isso faz muito sentido e eu nunca tinha ouvido falar ❤"},
+{"id": "c0587", "texto": "Resumindo Lulinha .. diz que tá ajudando o pobre liberando as bets ...😂😂😂😂😂😂 Faz o L em 2026 que passa"},
+{"id": "c0588", "texto": "O arroz deve ser bem lavado. Não coloco alho no arroz. Coloco dois dedos de água fria acima do arroz. Fica uma delícia"},
+{"id": "c0589", "texto": "Olá gratidão pela Receita Trabalhei com círios e eles faziam o arroz assim na água ferve nte. Depois eles temperavam com uma salada Parabéns 👏🌳🙏🥰🌹"},
+{"id": "c0590", "texto": "simplesmente incrível, eu amei"},
+{"id": "c0591", "texto": "Ameeiiiii ficou muito bom quando vai sair o próximo episódio ????"},
+{"id": "c0592", "texto": "1:12 So eu que percebi que o ronaldo fenomeno apareceu no começo da partida?"},
+{"id": "c0593", "texto": "O último coitado MORIBUNDO já kk"},
+{"id": "c0594", "texto": "O Brasil só perdeu porque o juiz não deu falta quando Roland pegou a bola na mão mas perdeu a 12"},
+{"id": "c0595", "texto": "Alguém sabe o nome do site q ele usou pra descobrir todas as respostas?"},
+{"id": "c0596", "texto": "Que Jesus abençoe, e nunca pare de vir lançamento assim 😅"},
+{"id": "c0597", "texto": "Ótimo vídeo com variedades de saladas para variações da semana. Muito gostosas . Parabéns. Tudo que eu gosto."},
+{"id": "c0598", "texto": "Não tenho mais emoção nenhuma assistindo essa seleção brasileira é só mercenários."},
+{"id": "c0599", "texto": "Boa noite!!! Eu não posso comer nada que tenha trigo posso trocar por outra farinha? Se posso qual?"},
+{"id": "c0600", "texto": "Como sempre, a mídia sensacionaliza o crime"}
+]

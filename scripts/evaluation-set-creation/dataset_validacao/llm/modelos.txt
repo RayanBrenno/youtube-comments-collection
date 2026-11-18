@@ -1,0 +1,19 @@
+Registro da anotação por LLMs (preencher ao executar; entra na metodologia)
+
+Interface: chat web, conversa nova (temporária/sem memória) para cada lote.
+Prompt: prompt_anotacao.md (bloco entre as linhas ---), igual nos 3 modelos.
+
+gpt
+  modelo exibido no chat:
+  data(s) de execução:
+  observações:
+
+deepseek
+  modelo exibido no chat:
+  data(s) de execução:
+  observações:
+
+gemini
+  modelo exibido no chat:
+  data(s) de execução:
+  observações:

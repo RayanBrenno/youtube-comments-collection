@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0501", "texto": "Muito bom o conteúdo e narração 🎉"},
+{"id": "c0502", "texto": "Boa noite Diego e família, que delícia 😋😋 vou fazer com certeza. Obrigado pela receita 👏🏾👏🏾👏🏾😘"},
+{"id": "c0503", "texto": "Parabéns pelos vídeos"},
+{"id": "c0504", "texto": "Sou de Olinda PE. Sofro dessa dor desde mais novo,mas ela passou a me incomodar mais a partir de 2020 no meu atual trabalho. Já tive crises de não poder trabalhar. Dicas sensacionais. Algunas eu já fazia como por instinto. Caminhar, alongamentos... E, nas crises, os Médicos chegaram a me indicar muitos desses tratamentos. Só não gostei da Acumputura. Não melhorou em nada e dava sono. 😂"},
+{"id": "c0505", "texto": "Olá, Júlia! Gostaria de um vídeo sobre dicas de livros 📚 sobre neurociência PS: Dica de livros: A coragem de não agradar"},
+{"id": "c0506", "texto": "🤎🤎🤎🤎 @simoneminhavida2023 Maioral é ela"},
+{"id": "c0507", "texto": "excelente reportagem parabéns pelo trabalho, impecável"},
+{"id": "c0508", "texto": "Tente deixar a natureza no Amapá intacta! O planeta agradece;🎉"},
+{"id": "c0509", "texto": "Amapá só pra petista rouba não serve pra nada"},
+{"id": "c0510", "texto": "Isso aqui tinha q ser 2 horas no mínimo kkkkkkkkkkkkkkkk"},
+{"id": "c0511", "texto": "Tava aleijado com nervoso ciático tomei infinity 12 tou bem melhor"},
+{"id": "c0512", "texto": "Top1 vem com força nessa! @amorpelacintilante"},
+{"id": "c0513", "texto": "Então a chata da minha irmã acabou😢"},
+{"id": "c0514", "texto": "10 anos por port de drogas na Rússia Não tem pena maior pra esse tipo de crime não? Aqui no Brasil é 5 ou 6 se não me engano."},
+{"id": "c0515", "texto": "Adorei a aula, grata."},
+{"id": "c0516", "texto": "Posição da cobra não descomprime.... Os medicamentos falados no vídeo são todos sedativos."},
+{"id": "c0517", "texto": "Cadres me ajuda a ser membro de vc"},
+{"id": "c0518", "texto": "Eu compro todos os anos para brincar mas com coidado"},
+{"id": "c0519", "texto": "Esse texto deu um boom na minha mente, vou estudar mais sobre."},
+{"id": "c0520", "texto": "O inglês intermediário aí 😂😂😂😂"},
+{"id": "c0521", "texto": "Mn os medicos tinham tesao em fazer lobotomia"},
+{"id": "c0522", "texto": "Siga para ver como o buzeira ficou milionário"},
+{"id": "c0523", "texto": "O timinho do Brasil tinha que assistir o jogo e aprender um pouco 😅"},
+{"id": "c0524", "texto": "trincão deveria ta na capa desse video, nao cr7"},
+{"id": "c0525", "texto": "Por que tem o rei gelado como suplente de uma senadora? 😂"},
+{"id": "c0526", "texto": "Neymar Neymar Neymar ❤🔥"},
+{"id": "c0527", "texto": "Só falta o Antony nessa seleção"},
+{"id": "c0528", "texto": "Bruno G, Rafinha, Casimiro, Lancelote 😂😂😂😂"},
+{"id": "c0529", "texto": "👇 quem ama a Isadora Clica aqui 🍭"},
+{"id": "c0530", "texto": "finalmente 😃🙌 outro vídeo"},
+{"id": "c0531", "texto": "Gostaria de ver o Boco em um filme de ação! E outro como músico de MPB! 🙌🏻🙌🏻"},
+{"id": "c0532", "texto": "Vou assistir várias vezes."},
+{"id": "c0533", "texto": "TEM UM ERRO NO COMEÇO DO VÍDEO: *_ENQUANTO MILHARES DE PESSOAS COMEMORAVAM NAS RUAS_* CORRIGINDO *_COMEMORAVAM NAS CADEIAS E PRESÍDIOS, NAS RUAS NÃO_*"},
+{"id": "c0534", "texto": "Votar em branco ou anular não encinou"},
+{"id": "c0535", "texto": "Acho melhor eu desistir da minha sugestão de vídeo 😢"},
+{"id": "c0536", "texto": "Este povo com os cabelos soltos, que falta de higiene."},
+{"id": "c0537", "texto": "FROM ILHÉUS ❤❤❤❤ VOCÊ É FODA BURRÃO!"},
+{"id": "c0538", "texto": "Poderiam deixar esse Rubinho viver nessa novela. O ator é muito bom! Maior carga dramática que o Daniel Filho. Este último passava excesso de auto confiança, por ser diretor. O Rubinho do remake, deveria ir mesmo doente para os States, e lá, ficar curado, fazer sucesso, e voltar alguns dias depois, cheio da grana, e namorar com a Celina😅"},
+{"id": "c0539", "texto": "Excelente matéria. Nunca havia visto nada igual...somente a realidade e verdade dos fatos. Parabéns pela reportagem. Quanto ao vício, em si, é de dar dó pela geração perdida. A grana flui pelo caminho mais triste e tortuoso que se possa imaginar..."},
+{"id": "c0540", "texto": "quem come leite ninho com açúcar até hoje?"},
+{"id": "c0541", "texto": "Inacreditável o Endrick não ter entrado nesse jogo. Se fosse o Diniz ou o Dorival fazendo isso, seriam DETONADOS."},
+{"id": "c0542", "texto": "Kkkk daqui a pouco tô manaual do submundo faz um video zoando"},
+{"id": "c0543", "texto": "Bem agora esse é o fim de vdd né"},
+{"id": "c0544", "texto": "KAKAKA NUM SEI PQ PREFERI O LAPIS DE COR TAVA PREFERINDO AS CANETAS E DO NADA ASMEI A PINTURA DE LAPIS KAKAK 😅😅😂😂"},
+{"id": "c0545", "texto": "Athos pq você não coloca as senhas de 456???? 123 é muito fácil!"},
+{"id": "c0546", "texto": "Excelente vídeo...uma pergunta, posso deixar essa massa na geladeira mais horas ou dias para fermentar mais?"},
+{"id": "c0547", "texto": "Eu tenho essa dor"},
+{"id": "c0548", "texto": "Excelente matéria, excelente dublagem. Parabéns."},
+{"id": "c0549", "texto": "Amei e as referências do camdoble e incrível eu sou da umbanda também ia amar colocar na casa referências, fora a elegância. Mansão linda"},
+{"id": "c0550", "texto": "Que hermosa Anitta"}
+]

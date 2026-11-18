@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0351", "texto": "As indústrias tá escondendo muitas coisas de nós,nós estamos sendo envenenado! Por isso que a população está doente nascendo muita gente na terra, e morrendo mais do que nasce......"},
+{"id": "c0352", "texto": "Cabei de chegar da escola partiu tonigon"},
+{"id": "c0353", "texto": "poatan tomou um chutão no saco,mandou juiz continuar e descontou com uma marretada"},
+{"id": "c0354", "texto": "3:05 eu tenho um celular da mesma marca, só que menos tunado;-;"},
+{"id": "c0355", "texto": "De acailandia ma. Ano passado foi difícil porém este começo de ano tá orivel dói. Tudo as nádegas cochas tá difícil"},
+{"id": "c0356", "texto": "Gostei narrador tem q ta narrando na copa"},
+{"id": "c0357", "texto": "Que vídeo 👏👏👏👏👏 Agora quero o forno, vou juntar dindin"},
+{"id": "c0358", "texto": "Parabéns pelo seu canal amigo, ganhou um inscrito 👍🏼"},
+{"id": "c0359", "texto": "Traça. Roupas de algodão tudo furada 😢"},
+{"id": "c0360", "texto": "Ele acerta no djuntor dos caras do nada. Reparem que os adversários ficam sem entender kkkkk 07:26 \"não perde a concentraçãããoooo!\" Kkkkkkk"},
+{"id": "c0361", "texto": "Moha chama o Cadu mais vezes por favor, que aula, meu Deusss, esse miojo é de outro nível 👏👏👏❤️"},
+{"id": "c0362", "texto": "julio multimilionário e com calça rasgada no show"},
+{"id": "c0363", "texto": "E um motor elétrico para esse aquecimento?"},
+{"id": "c0364", "texto": "Valeu Samsung, amei !"},
+{"id": "c0365", "texto": "A CASA VIROU UMA CASA DE RELIGIAO, ,"},
+{"id": "c0366", "texto": "... CIDADE ... TRIO ... PODE IR ... RAIZ ."},
+{"id": "c0367", "texto": "Vem besouro, vem conhecer a caranguejeira kkkkkkk"},
+{"id": "c0368", "texto": "6:57 Leo: estrela não, buraco negro Danilo: assim vc me fode. KKKKKKKKKKKKKKKK"},
+{"id": "c0369", "texto": "Não core o alho fica escuro. Torro o arroz depois q eu ponho o alho deixo mais um pouco . Depois q eu ponho a água. Fica supipa😅"},
+{"id": "c0370", "texto": "Cadê Como eu posso jogar o seu jogo"},
+{"id": "c0371", "texto": "Arrasou demais, top❤❤❤❤❤❤"},
+{"id": "c0372", "texto": "Não deu certo, ficou igual água, deixei no fogo por 1 hora"},
+{"id": "c0373", "texto": "EUA meteu 3 gols no Paraguai só no 1 tempo, enquanto o Brasil mal manteve um empate com o Marrocos kkkkk Que fase, meus amigos..."},
+{"id": "c0374", "texto": "Pode fazer o papel do Sagatt do street figther tranquilamente kkkkk"},
+{"id": "c0375", "texto": "Coitado do Rubinho"},
+{"id": "c0376", "texto": "Gente, que ótima ideia hehe Tava precisando dar um presente essa semana, vou dar uma caixinha, pq a pessoa é musical e tal, fechou.. valeu, Ângelo hahahha"},
+{"id": "c0377", "texto": "O pudim da padaria não tem furinho"},
+{"id": "c0378", "texto": "Por que aí seca"},
+{"id": "c0379", "texto": "Brasil perdeu por dinheiro"},
+{"id": "c0380", "texto": "Eu com fogão de indução vendo a receita assim !🤡🤡 Tenho que fazer no forno mesmo ! Kkkkk"},
+{"id": "c0381", "texto": "Eu já não gosto de pudim lisinho, gosto bem aerado, com muitos furinhos, pra mim fica muitoooooo apetitoso!"},
+{"id": "c0382", "texto": "Devem nos ajudar para que entendamos a taxação para quem receber +50k/mes de proventos ?"},
+{"id": "c0383", "texto": "melhor programa HAHAHAHAHAHAHAHAHAHAHAHAAHHAHA me amarro no igorfina, mlk humildade e talrntoso pra caraca...dileira fez falta"},
+{"id": "c0384", "texto": "Eu sabo até demais"},
+{"id": "c0385", "texto": "Um eleitor do Lule a menos!"},
+{"id": "c0386", "texto": "Dia 789 tentando a fazer a play Guima jogar RIVALS"},
+{"id": "c0387", "texto": "Os traficantes de droga no fim de julgados condenados a morte em qualquer país, assim que fossem apanhados já sabiam que iam ser condenados a morte......"},
+{"id": "c0388", "texto": "concordo com o comentarista, n pode haver prorrogação em jg eliminatório, tem q ser direto para os pênaltis, cara!! Portugal ganhou por isso e pela falha do Schmeichel."},
+{"id": "c0389", "texto": "Arrasou anitta, vim pelo pogramaaa"},
+{"id": "c0390", "texto": "Ouvir essa música pede um copinho de cachaça"},
+{"id": "c0391", "texto": "Essa adaptação de Vale Tudo está ótimo , Manuela Dias tá mandando bem , e os ganchos estão perfeitos! ❤"},
+{"id": "c0392", "texto": "Só p lembrar: fila do osso motociantas desvio de jóias orçamento secreto calote dos precatórios barra de ouro p pastor corte de bolsa de mestrado e doutorado casas compradas com dinheiro vivo clima com menor de idade pinto de borracha p colegas entreguismo 700.000 mortos = direita..."},
+{"id": "c0393", "texto": "o video ta muito top mas 9:14 quicano"},
+{"id": "c0394", "texto": "Eu sou dedo na ferida🔥🤣🤣🤣"},
+{"id": "c0395", "texto": "Já convivi com muito kkk"},
+{"id": "c0396", "texto": "Receita do chili oil 😮"},
+{"id": "c0397", "texto": "Povo louco, lá ele 😊"},
+{"id": "c0398", "texto": "Gosto muito de leite em po"},
+{"id": "c0399", "texto": "muito bom~!!!!!! I love this"},
+{"id": "c0400", "texto": "O que é o ENEM?"}
+]

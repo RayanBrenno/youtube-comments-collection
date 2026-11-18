@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0751", "texto": "Minha terapia perfeita"},
+{"id": "c0752", "texto": "musica boa mais tocadas multishow. MatheusEKauan #AnaCastela #IlusaoDeOtica #Envolvente clipes vídeo oficial"},
+{"id": "c0753", "texto": "O brasileiro leva tudo na brincadeira"},
+{"id": "c0754", "texto": "Eu amo leite em pó ninho. Minha mãe nos criou eu e meus irmãos com leite ninho. 😊"},
+{"id": "c0755", "texto": "Quem tá miau miau no BR"},
+{"id": "c0756", "texto": "Você falou que é perigoso e falou quando eu éra criança a gente fazia cerou essa foi boa"},
+{"id": "c0757", "texto": "Elétrico, autônomo e usando as estrelas para se guiar."},
+{"id": "c0758", "texto": "Tem que trazer elas mais vezes 😂😂😂😂😂😂"},
+{"id": "c0759", "texto": "Eu conheci o Julio Andrade no seriado Sob Pressão, grande ator, merece todos os aplausos ❤"},
+{"id": "c0760", "texto": "O maior atleta brasileiro vivo"},
+{"id": "c0761", "texto": "“ pode apelar pro plano B”"},
+{"id": "c0762", "texto": "Realmente, o frio não é pra qualquer um.... Seu canal tem futuro, parabéns! Crie outros temas ao invés de apenas caminhões também, curiosidades, a galera curte"},
+{"id": "c0763", "texto": "Eles não erram nuncaaa👏🏻👏🏻👏🏻🔥"},
+{"id": "c0764", "texto": "Se essa linha corta tudo é dela q vou comprar ent, quero ganhar o torneio de pipa"},
+{"id": "c0765", "texto": "Helena está parecendo a velma do scoobidduoo"},
+{"id": "c0766", "texto": "Que plot twist 😂😂😂😂😂😂😂"},
+{"id": "c0767", "texto": "Comprei not book depois fui tomar umas .. ❤"},
+{"id": "c0768", "texto": "Burrão e uma antítese do grupo Mateus.kkkk"},
+{"id": "c0769", "texto": "Ontem foi meu aniversário só queria um like"},
+{"id": "c0770", "texto": "Ciencia todo por do sol"},
+{"id": "c0771", "texto": "tinha que ter feito com uma roldana só, com metros de linha \"limpa\" percorrendo, pra ficar mais realista"},
+{"id": "c0772", "texto": "Esse Ângelo é incrivel, super carismático e cheio de personalidade. Nunca tinha visto mas já sou fã"},
+{"id": "c0773", "texto": "Nao sei quem é essa atriz, mas nao convence mesmo, Muito franca mesmo. Nem é preciso comparar à interpretaçao de Gloria Pires para ter essa conclusao."},
+{"id": "c0774", "texto": "Assim que uma pessoa deixa seu corpo terrena aqui, assume instantaneamente um novo corpo num mundo parecido com este., com as mesmas caracteristicas. Então ela continua sua jornada maravilhosa rumo ao despertar do profundo sono como Deus."},
+{"id": "c0775", "texto": "Eu não tomo leite de qualquer tipo. Tenho muito azia"},
+{"id": "c0776", "texto": "Nunca acerto. Vou salvar as essa"},
+{"id": "c0777", "texto": "so 12 horas cheguei sedo"},
+{"id": "c0778", "texto": "Na boa, quando voce compra um presente super caro num amigo secreto voce anos esta nem ai para a pessoa, so quer se mostrar mesmo."},
+{"id": "c0779", "texto": "Não pode mexer o arroz quando está quase cozido enxugando a água"},
+{"id": "c0780", "texto": "Que delícia!!Amei!!"},
+{"id": "c0781", "texto": "Deu fome 😂😂😂😂 vou fazer hummmmm"},
+{"id": "c0782", "texto": "Kde o Dilera?"},
+{"id": "c0783", "texto": "Tem que ser muito tapado, ser bucha de canhão em guerra dos outros."},
+{"id": "c0784", "texto": "Aqui chamamos de TRAÇA"},
+{"id": "c0785", "texto": "caba meteu uma jojo reference"},
+{"id": "c0786", "texto": "Sou natural da Ilha de Marajó, infelizmente quando criança vi dois acidentes fatais por causa de linha com cerol"},
+{"id": "c0787", "texto": "CR7 ERA PRA TER SAIDO COM 4 GOLS"},
+{"id": "c0788", "texto": "Prefiro meus 7mil por mes salvo em casa."},
+{"id": "c0789", "texto": "Prendam a p***** do cabelo! Que nojo isso!"},
+{"id": "c0790", "texto": "Pais lixo com jovens fudidos"},
+{"id": "c0791", "texto": "Onde econtro esse fogão.kkkk"},
+{"id": "c0792", "texto": "O Hector é ótimo 😅"},
+{"id": "c0793", "texto": "Gente, os olhos dele é s coisa mais linda ❤❤❤❤❤❤"},
+{"id": "c0794", "texto": "O Broca viajou… Nada simples…"},
+{"id": "c0795", "texto": "Eu pode camisa vermelha"},
+{"id": "c0796", "texto": "Joga fnaf sequirit breach prf sou mt seu fã nunca fui escolhido"},
+{"id": "c0797", "texto": "Po mas já quebraram a porcaria da torre😮tá complicado em Meu mano tonigon 😅"},
+{"id": "c0798", "texto": "é difícil ter pena destes depois que sai videos de arrempedimento e choro. se fosse aqui no Brasil estavam reclamando... bando de lambe-botas. Tbm tem pessoas que jogaram Conter Strilke ou Call of Duty e acham que guerra é um jogo de video-game Desculpas. Mas não tenho empatia por eles."},
+{"id": "c0799", "texto": "Obrigada pela receita vou fazer 😊"},
+{"id": "c0800", "texto": "Muito interessante. Sou do sudeste e nunca imaginei essa dificuldade geográfica dessa região. Parabéns!"}
+]

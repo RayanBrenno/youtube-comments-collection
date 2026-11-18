@@ -1,0 +1,124 @@
+Você é um anotador de sentimento de comentários do YouTube escritos em
+português do Brasil. Sua tarefa é classificar o sentimento expresso pelo
+autor de cada comentário em exatamente uma de três classes: `positivo`,
+`negativo` ou `neutro`.
+
+## Definições
+
+- **positivo**: o autor expressa emoção ou avaliação favorável: elogio,
+  gratidão, admiração, alegria, apoio, carinho, diversão, concordância
+  entusiasmada, bênção ou torcida a favor.
+- **negativo**: o autor expressa emoção ou avaliação desfavorável: crítica,
+  reclamação, raiva, tristeza, decepção, medo, desprezo, ofensa, deboche ou
+  discordância hostil.
+- **neutro**: não há emoção ou avaliação clara: informação, fato, pergunta,
+  pedido ou sugestão sem carga emocional, marcação de tempo do vídeo, ou
+  comentário cuja polaridade não pode ser determinada.
+
+## Regras
+
+1. Classifique o sentimento **expresso pelo autor**, sobre qualquer alvo (o
+   vídeo, o criador, outra pessoa, um fato, a própria vida), e não apenas
+   sobre o vídeo.
+2. **Ironia e sarcasmo**: classifique pelo sentido pretendido, não pelo
+   literal. "Que vídeo maravilhoso, perdi 15 minutos da minha vida" é
+   `negativo`.
+3. **Comentário misto** (elogio e crítica): use a polaridade predominante.
+   Se nenhuma predominar, use `neutro`.
+4. **Perguntas, pedidos e sugestões** ("faz a parte 2", "qual a marca da
+   panela?") são `neutro`, a menos que tragam emoção explícita ("amei, faz a
+   parte 2 por favor ❤" é `positivo`).
+5. **Emojis, risadas e pontuação expressiva** ("kkkk", "😂", "❤", "😡",
+   "!!!") contam como sinais de sentimento e devem ser considerados junto com
+   o texto.
+6. **Gírias, abreviações, erros de digitação e letras repetidas** são
+   normais nesses comentários: interprete pelo sentido ("mt brabo" =
+   elogio; "lindaaa" = elogio).
+7. **Relato de acontecimento triste ou negativo**: classifique pela emoção
+   do autor. Indignação ou tristeza com o fato é `negativo`; relato neutro
+   do fato é `neutro`.
+8. Não use conhecimento externo sobre o vídeo, o canal ou as pessoas
+   citadas: considere apenas o texto do comentário.
+9. Classifique cada comentário de forma independente dos demais do lote.
+
+## Exemplos (ilustrativos, não fazem parte do dataset)
+
+| Comentário | Sentimento |
+|---|---|
+| "Melhor canal do YouTube, aprendo muito aqui 👏👏" | positivo |
+| "Kkkkkk eu chorei de rir nessa parte" | positivo |
+| "Que vergonha, esse juiz roubou descaradamente" | negativo |
+| "Nossa, que ótimo, mais um vídeo de 20 minutos pra falar nada" | negativo |
+| "Alguém sabe o nome da música do minuto 3:12?" | neutro |
+| "A receita é boa, mas o vídeo tem propaganda demais" | neutro |
+| "Assisti em 2026, quem mais?" | neutro |
+
+## Entrada
+
+Um array JSON de objetos com `id` e `texto`.
+
+## Saída
+
+Responda **somente** com um array JSON, sem texto antes ou depois, com um
+objeto por comentário, na mesma ordem e com o mesmo `id` da entrada:
+
+```json
+[{"id": "...", "sentimento": "positivo"}]
+```
+
+O campo `sentimento` deve ser exatamente `positivo`, `negativo` ou `neutro`,
+em minúsculas. Não omita nenhum comentário.
+
+Classifique os comentários a seguir:
+[
+{"id": "c0051", "texto": "Será que existe filhos assim, que tem vergonha e rejeita os pais ???"},
+{"id": "c0052", "texto": "Júlio Andrade deu o nome no drama como Rubinho agora"},
+{"id": "c0053", "texto": "O máximo que pode ficar de descanso é 12 horas mesmo ? Ou pode deixar até 24 ?"},
+{"id": "c0054", "texto": "Aquela música que faz a gente sorrir e chorar ao mesmo tempo."},
+{"id": "c0055", "texto": "Se não tiver vinagre, pode acrescentar rodelas de limão 🍋‍🟩 ou gotas do limão 🍋‍🟩"},
+{"id": "c0056", "texto": "Meninos vocês merecem tudo de bom❤"},
+{"id": "c0057", "texto": "Carai Ney, q time ruim esse do Santos"},
+{"id": "c0058", "texto": "É a coisa mais facil do mundo construir um Porto nesse local . srrsrsrsrsr"},
+{"id": "c0059", "texto": "A bela muito chata e pode e vai come coco❤❤😂😂 🎉brincadeira a bela e muito legal"},
+{"id": "c0060", "texto": "Atos se você deixar o banheiro aberto aí quando o seu cliente chegar vai ver você fazendo cocô e xix"},
+{"id": "c0061", "texto": "Igor precisa estar no roda solta"},
+{"id": "c0062", "texto": "Faz muito mais sentido do que a versão canônica. Judas trair Jesus depois de tudo que viveu com ele, por dinheiro ainda, tem que ser muito ingênuo."},
+{"id": "c0063", "texto": "Esse guri tem que ir pra copa 🙏🏾🙌🏾👊🏾💪🏾"},
+{"id": "c0064", "texto": "Essa paulada na cara me faz tomar uma e pensar na vida pois já vivi essa história 😅"},
+{"id": "c0065", "texto": "Sharon e Chung, UAAU! que escolha incrível!!! Incríveis em atuação e representatividade dos Doramas!! Parabéns Samsung pelo incrível projeto! Ansiosa por mais!!"},
+{"id": "c0066", "texto": "esse maluco é uma mãe"},
+{"id": "c0067", "texto": "E eu queria saber o que ele ganhou do amigo oculto."},
+{"id": "c0068", "texto": "Ahhh eu saio matando e varrendo tudo, da é uma raiva que toda hora esse bicho aparece em escala!"},
+{"id": "c0069", "texto": "Marginalizar ou abominar não é a solução pipa é tradição milenar , muitos paises praticam essa terapia , a questão é que antigamente tinha espaço pra isso hoje não tem mais! Os prédios tomaram conta deles lugares , no fim o pessoal é obrigado a praticar o esporte nas ruas , tinham que fazer pipodramos e todo lugar"},
+{"id": "c0070", "texto": "O susto do Hector 😂😂😂😂😂 Melhor programa"},
+{"id": "c0071", "texto": "Fã da Sharon aqui, desde Além do Guarda Roupa"},
+{"id": "c0072", "texto": "Eu cmpraria o da ohuhu"},
+{"id": "c0073", "texto": "Portugal joga muito pouco pra seleção que tem! Treinadores fracos, não jogam a equipe pra cima"},
+{"id": "c0074", "texto": "Tá diendo em mim"},
+{"id": "c0075", "texto": "Eu gosto muito da Daniela. Mulher confiante, gosto assim ❤"},
+{"id": "c0076", "texto": "mas não foi o presidente lula que vetou pra saidinha dos preso 😂😂😂 lula disse que eles também tem família"},
+{"id": "c0077", "texto": "N deve ser contado como cirurgia, é multilação saporra"},
+{"id": "c0078", "texto": "Oi Henrique- amo seu conteúdo! Aprendo muito com você. Apenas gostaria de trazer um pedido- por favor, quando falar dos apócrifos, fala também da veracidade histórica do texto- porque vejo aqui muitos comentários de pessoas acreditando que foi judas mesmo que escreveu e que são textos escondidos por manipulação da igreja e tals.. tem que explicar tudo certinho pro pessoal entender corretamente, se não a informação correta vira desinformação pro povo. Obrigada!!"},
+{"id": "c0079", "texto": "Boa noite, essa massa pode ser feita pela manhã para comer a noite?"},
+{"id": "c0080", "texto": "Que veio depois do vídeo no metrô em Salvador?"},
+{"id": "c0081", "texto": "olá doutor André, sou Maria Inês, sou de Campinas São Paulo, gosto muito dos seus vídeos me ajudam bastante, Deus te abençoe sempreeee ❤"},
+{"id": "c0082", "texto": "Kkkkkkk André balada kkkkkkkk"},
+{"id": "c0083", "texto": "E ele ganhou o que de quem? 😆"},
+{"id": "c0084", "texto": "alguém entendeu a tatá falar do denzel washington quando perguntou da pessoa famosa que a bruna ficou e ninguém sabe e ela sabe?"},
+{"id": "c0085", "texto": "Infelizmente programa muito forçado. Sasha e muitíssima linda e educadíssima. Tatha vem forçando os entrevistados e as piadinhas forcadas estragam o programa."},
+{"id": "c0086", "texto": "Bora Pintar o Cabelo de Vermelho e Fazer o L 😂😂😂"},
+{"id": "c0087", "texto": "Nao tem como ...essa Maria de Fátima da Bella Campos é muito ruim."},
+{"id": "c0088", "texto": "Oi gostei da dica,vou testar depois falo😉"},
+{"id": "c0089", "texto": "eu tenho ese jogo"},
+{"id": "c0090", "texto": "Oi guina manda salve"},
+{"id": "c0091", "texto": "Matheus e Kauan parabéns ❤"},
+{"id": "c0092", "texto": "Tem que ser muito atestado para cair nessa conversa fiada. Para quem não vai voltar, pode se prometer o mundo."},
+{"id": "c0093", "texto": "Demais!! Burrão vive passando a perna nos sabichões!😊 Parabéns a todos!🎉"},
+{"id": "c0094", "texto": "Bora ver ate onde dura"},
+{"id": "c0095", "texto": "Vou fazer Pilates,estou com dor no ciático"},
+{"id": "c0096", "texto": "Play Guima Joga deltarune pls vc vai gostar 👍"},
+{"id": "c0097", "texto": "Oi Diego faço sempre esse bolo com côco ralado por cima"},
+{"id": "c0098", "texto": "Igorfina mal falou hahaha"},
+{"id": "c0099", "texto": "Há um erro no gráfico sobre o “Sucesso” do procedimento apresentado pelo médico… 85% x 15% 30% sobre a parte maior e não sobre a parte menor"},
+{"id": "c0100", "texto": "Uma das melhores explicações que já vi sobre urano, agora sim entendi o porque que quando era menor eu desenhava os aneis de urano ao contrário de saturno (eu desenhava do jeito certo só n sabia o porque)"}
+]
